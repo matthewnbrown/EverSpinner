@@ -49,6 +49,22 @@
                 android:layout_weight="1"
                 android:onClick="onCopyClick"
                 style="?android:attr/buttonBarButtonStyle"/>
+            <Button
+                android:id="@+id/btn_spinner_load"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/spinner_loadbtn_txt"
+                android:layout_weight="1"
+                android:onClick="onCopyClick"
+                style="?android:attr/buttonBarButtonStyle"/>
+            <Button
+                android:id="@+id/btn_spinner_save"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/spinner_savebtn_txt"
+                android:layout_weight="1"
+                android:onClick="onCopyClick"
+                style="?android:attr/buttonBarButtonStyle"/>
         </LinearLayout>
 
         <View

@@ -9,4 +9,7 @@
     <string name="spinner_loadbtn_txt">Load</string>
     <string name="spinner_savebtn_txt">Save</string>
 
+    <string name="spinner_error_parse_1">Error: An selection is closed \'}\' before it is opened \'{\'!</string>
+    <string name="spinner_error_parse_2">Error: An selection is not closed with \'}\'!</string>
+
 </resources>

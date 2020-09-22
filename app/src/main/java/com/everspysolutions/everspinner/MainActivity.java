@@ -40,14 +40,18 @@ public class MainActivity extends AppCompatActivity {
         this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
     }
 
-    /* access modifiers changed from: package-private */
+    /**
+     * Error checks and spins text
+     * @param text Text to be spun
+     * @return Error message or spun text.
+     */
     public String spinText(String text) {
         int selectionCount = errorCheckText(text);
         if (selectionCount == -1) {
-            return "Error: An selection is closed '}' before it is opened '{'!";
+            return getString(R.string.spinner_error_parse_1);
         }
         if (selectionCount == -2) {
-            return "Error: An selection is not closed with '}'!";
+            return getString(R.string.spinner_error_parse_2);
         }
         return solveSelections(text);
     }

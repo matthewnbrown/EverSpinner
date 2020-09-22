@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         int cutStartPoint = 0;
         int i = 0;
         while (i < text.length()) {
-            if (text.charAt(i) == '{' && 0 == 0) {
+            if (text.charAt(i) == '{') {
                 sb.append(text.substring(cutStartPoint, i));
                 int cutStartPoint2 = findClosingBracket(text, i);
                 sb.append(solveSelection(text.substring(i, cutStartPoint2 + 1)));
@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
             i++;
         }
-        sb.append(text.substring(cutStartPoint, text.length()));
+
+        sb.append(text.substring(cutStartPoint));
         return sb.toString();
     }
 
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             }
             i++;
         }
-        sb.append(selection2.substring(lastPos, selection2.length()));
+        sb.append(selection2.substring(lastPos));
         options.add(sb.toString());
         return chooseOption((String[]) options.toArray(new String[0]));
     }
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (counter == 0) {
                 endPos = i;
+                break;
             }
         }
         return endPos;

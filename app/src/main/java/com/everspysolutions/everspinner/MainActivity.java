@@ -29,11 +29,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onPasteClick(View view) {
-        this.inputTextBox.setText(((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).getPrimaryClip().getItemAt(0).getText().toString());
+        ClipboardManager cb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData cbContents = cb.getPrimaryClip();
+
+        String newInput = "";
+        if(cbContents != null) {
+            newInput = cbContents.getItemAt(0).getText().toString();
+        }
+        inputTextBox.setText(newInput);
     }
 
     public void onCopyClick(View view) {
-        ((ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Spun Text", this.outputTextBox.getText()));
+        ClipboardManager cb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        cb.setPrimaryClip(ClipData.newPlainText("Spun Text", this.outputTextBox.getText()));
     }
 
     public void onSpinClick(View view) {
@@ -55,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return solveSelections(text);
     }
-
 
     /**
      * Spins a properly formatted string of text

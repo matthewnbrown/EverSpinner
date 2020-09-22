@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">EverSpinner</string>
+    <string name="spinner_copybtn_txt">Copy</string>
+    <string name="spinner_default_input">This {is|is not} a good UI design!</string>
+    <string name="spinner_input_txt_hint">Input text to be spun</string>
+    <string name="spinner_output_txt_hint">Press \"Spin\" to autofill this based on input</string>
+    <string name="spinner_pastebtn_txt">Paste</string>
+    <string name="spinner_spinbtn_txt">Spin</string>
+    <string name="spinner_loadbtn_txt">Load</string>
+    <string name="spinner_savebtn_txt">Save</string>
+
+</resources>

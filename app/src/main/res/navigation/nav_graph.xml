@@ -8,7 +8,11 @@
         android:id="@+id/savedText"
         android:name="com.everspysolutions.everspinner.savedText"
         android:label="fragment_saved_text_list"
-        tools:layout="@layout/fragment_saved_text_list" />
+        tools:layout="@layout/fragment_saved_text_list" >
+        <action
+            android:id="@+id/action_savedText_to_spinner"
+            app:destination="@id/spinner" />
+    </fragment>
     <fragment
         android:id="@+id/spinner"
         android:name="com.everspysolutions.everspinner.spinner"

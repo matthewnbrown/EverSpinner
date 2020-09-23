@@ -2,121 +2,28 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:aapt="http://schemas.android.com/aapt"
-    android:id="@+id/container" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:id="@+id/ll_spinbutton_cont"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="0"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="?android:attr/buttonBarStyle">
-
-            <Button
-                android:id="@+id/btn_spinner_paste"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/spinner_pastebtn_txt"
-                android:layout_weight="1"
-                android:onClick="onPasteClick"
-                style="?android:attr/buttonBarButtonStyle"/>
-            <Button
-                android:id="@+id/btn_spinner_spin"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/spinner_spinbtn_txt"
-                android:layout_weight="3"
-                android:onClick="onSpinClick"
-                style="?android:attr/buttonBarButtonStyle"/>
-            <Button
-                android:id="@+id/btn_spinner_copy"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/spinner_copybtn_txt"
-                android:layout_weight="1"
-                android:onClick="onCopyClick"
-                style="?android:attr/buttonBarButtonStyle"/>
-            <Button
-                android:id="@+id/btn_spinner_load"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/spinner_loadbtn_txt"
-                android:layout_weight="1"
-                android:onClick="onCopyClick"
-                style="?android:attr/buttonBarButtonStyle"/>
-            <Button
-                android:id="@+id/btn_spinner_save"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="@string/spinner_savebtn_txt"
-                android:layout_weight="1"
-                android:onClick="onCopyClick"
-                style="?android:attr/buttonBarButtonStyle"/>
-        </LinearLayout>
-
-        <View
-            android:background="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-        <ScrollView
-            android:id="@+id/scroll_input_txt"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:fillViewport="true"
-            android:layout_weight="1">
-            <EditText
-                android:gravity="top"
-                android:id="@+id/txt_spinner_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@string/spinner_default_input"
-                android:hint="@string/spinner_input_txt_hint"
-                android:inputType="textMultiLine"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
-        </ScrollView>
-
-        <View
-            android:background="#000000"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
-
-        <ScrollView
-            android:id="@+id/scroll_output_txt"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:fillViewport="true"
-            android:layout_weight="1">
-            <EditText
-                android:gravity="top"
-                android:id="@+id/txt_spinner_output"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="8dp"
-                android:hint="@string/spinner_output_txt_hint"
-                android:inputType="textMultiLine"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
-        </ScrollView>
-    </LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <!--        app:menu="@menu/menu_bottom_nav"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

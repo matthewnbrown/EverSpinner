@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/spinner">
+    <fragment
+        android:id="@+id/savedText"
+        android:name="com.everspysolutions.everspinner.savedText"
+        android:label="fragment_saved_text_list"
+        tools:layout="@layout/fragment_saved_text_list" />
+    <fragment
+        android:id="@+id/spinner"
+        android:name="com.everspysolutions.everspinner.spinner"
+        android:label="fragment_spinner"
+        tools:layout="@layout/fragment_spinner" >
+        <action
+            android:id="@+id/action_spinner_to_savedText"
+            app:destination="@id/savedText" />
+    </fragment>
+</navigation>

@@ -33,8 +33,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mLabelView.setText("LABEL:" + mValues.get(position).id);
+        holder.mContentView.setText(mValues.get(position).details);
     }
 
     @Override
@@ -44,15 +44,15 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mLabelView;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mLabelView = (TextView) view.findViewById(R.id.item_saved_label);
+            mContentView = (TextView) view.findViewById(R.id.item_saved_preview);
         }
 
         @Override

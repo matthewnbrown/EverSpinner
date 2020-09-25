@@ -29,7 +29,7 @@ public class spinner extends Fragment implements OnClickListener{
     private static final String INITTEXT = "This {is|is not} good UI design";
 
     private TextView inputTextBox, outputTextBox;
-    private Button copyBtn, pasteBtn, spinBtn;
+    private Button copyBtn, pasteBtn, spinBtn, saveBtn;
     // TODO: Rename and change types of parameters
     private String mParam1;
 
@@ -82,18 +82,24 @@ public class spinner extends Fragment implements OnClickListener{
             case R.id.btn_spinner_spin:
                 onSpinClick(v);
                 break;
+            case R.id.btn_spinner_save:
+                onSaveClick(v);
+                break;
         }
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         copyBtn = view.findViewById(R.id.btn_spinner_copy);
         pasteBtn = view.findViewById(R.id.btn_spinner_paste);
         spinBtn = view.findViewById(R.id.btn_spinner_spin);
+        saveBtn = view.findViewById(R.id.btn_spinner_save);
 
         copyBtn.setOnClickListener(this);
         pasteBtn.setOnClickListener(this);
         spinBtn.setOnClickListener(this);
+        saveBtn.setOnClickListener(this);
 
         inputTextBox = getView().findViewById(R.id.txt_spinner_input);
         outputTextBox = getView().findViewById(R.id.txt_spinner_output);
@@ -118,7 +124,9 @@ public class spinner extends Fragment implements OnClickListener{
     public void onSpinClick(View view) {
         this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
     }
+    public void onSaveClick(View view) {
 
+    }
     /**
      * Error checks and spins text
      * @param text Text to be spun

@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,25 +16,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link spinner#newInstance} factory method to
+ * Use the {@link Spinner#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class spinner extends Fragment implements OnClickListener{
+public class Spinner extends Fragment implements OnClickListener{
 
     private static final String INITTEXT = "This {is|is not} good UI design";
 
     private TextView inputTextBox, outputTextBox;
     private Button copyBtn, pasteBtn, spinBtn, saveBtn;
+    private SavedTextFile activeTextFile;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
 
-    public spinner() {
+    public Spinner() {
         // Required empty public constructor
     }
 
@@ -44,8 +50,8 @@ public class spinner extends Fragment implements OnClickListener{
      * @param inputText initial text to fill spinner input
      * @return A new instance of fragment spinner.
      */
-    public static spinner newInstance(String inputText) {
-        spinner fragment = new spinner();
+    public static Spinner newInstance(String inputText) {
+        Spinner fragment = new Spinner();
         Bundle args = new Bundle();
         args.putString(INITTEXT, inputText);
         fragment.setArguments(args);
@@ -125,7 +131,14 @@ public class spinner extends Fragment implements OnClickListener{
         this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
     }
     public void onSaveClick(View view) {
+        activeTextFile = new SavedTextFile();
+        SpinnerDirections.ActionSpinnerToEditSavedText action
+                = SpinnerDirections.actionSpinnerToEditSavedText(activeTextFile);
+        //Spinner
+        //spinnerDirections.ActionSpinnerToEditSavedText action =
+         //       spinnerDirections.actionSpinnerToEditSavedText(activeTextFile);
 
+        Navigation.findNavController(view).navigate(action);
     }
     /**
      * Error checks and spins text

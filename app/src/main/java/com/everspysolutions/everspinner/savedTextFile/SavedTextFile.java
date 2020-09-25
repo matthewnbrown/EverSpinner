@@ -1,21 +1,22 @@
 package com.everspysolutions.everspinner.savedTextFile;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class savedTextFile {
+public class SavedTextFile implements Serializable {
     private String text;
     private String label;
     private final Date timeCreated;
     private Date lastEdit;
 
-    public savedTextFile(){
+    public SavedTextFile(){
         this.text = "Text";
         this.label = "Label";
         this.timeCreated = new Date();
         this.lastEdit = new Date();
     }
 
-    public savedTextFile(String label, String text){
+    public SavedTextFile(String label, String text){
         this.text = text;
         this.label = label;
         this.timeCreated = new Date();

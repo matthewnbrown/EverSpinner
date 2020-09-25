@@ -2,18 +2,25 @@ package com.everspysolutions.everspinner;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link editSavedText#newInstance} factory method to
+ * Use the {@link EditSavedText#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class editSavedText extends Fragment {
+public class EditSavedText extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +31,10 @@ public class editSavedText extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public editSavedText() {
+    private SavedTextFile savedTextFile;
+    private TextView labelTextBox, inputTextBox;
+
+    public EditSavedText() {
         // Required empty public constructor
     }
 
@@ -37,8 +47,8 @@ public class editSavedText extends Fragment {
      * @return A new instance of fragment editSavedText.
      */
     // TODO: Rename and change types and number of parameters
-    public static editSavedText newInstance(String param1, String param2) {
-        editSavedText fragment = new editSavedText();
+    public static EditSavedText newInstance(String param1, String param2) {
+        EditSavedText fragment = new EditSavedText();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -50,15 +60,30 @@ public class editSavedText extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            //mParam1 = getArguments().getString(ARG_PARAM1);
+
+            savedTextFile =
+                    (SavedTextFile) EditSavedTextArgs.fromBundle(getArguments()).getSavedFile();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_edit_saved_text, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        inputTextBox = (TextView) view.findViewById(R.id.edit_saved_label);
+        labelTextBox = view.findViewById(R.id.edit_saved_input_text);
+        TextView date = view.findViewById(R.id.edit_saved_date_created);
+        inputTextBox.setText(savedTextFile.getText());
+        labelTextBox.setText(savedTextFile.getLabel());
+        date.setText(savedTextFile.getTimeCreated().toString());
+
     }
 }

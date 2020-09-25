@@ -9,7 +9,7 @@
     android:paddingStart="5dp"
     android:paddingEnd="5dp"
 
-    tools:context=".editSavedText">
+    tools:context=".EditSavedText">
 
     <EditText
         android:id="@+id/edit_saved_label"
@@ -34,8 +34,7 @@
         <TextView
             android:id="@+id/edit_saved_date_created"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SUNDAJFBHFgdssgfsdgBHJK"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <EditText

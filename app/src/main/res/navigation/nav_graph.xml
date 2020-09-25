@@ -6,7 +6,7 @@
     app:startDestination="@id/spinner">
     <fragment
         android:id="@+id/savedText"
-        android:name="com.everspysolutions.everspinner.savedText"
+        android:name="com.everspysolutions.everspinner.SavedText"
         android:label="fragment_saved_text_list"
         tools:layout="@layout/fragment_saved_text_list" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/spinner"
-        android:name="com.everspysolutions.everspinner.spinner"
+        android:name="com.everspysolutions.everspinner.Spinner"
         android:label="fragment_spinner"
         tools:layout="@layout/fragment_spinner" >
         <action
@@ -26,11 +26,19 @@
             app:destination="@id/savedText" />
         <action
             android:id="@+id/action_spinner_to_editSavedText"
-            app:destination="@id/editSavedText" />
+            app:destination="@id/editSavedText"
+            app:launchSingleTop="false" />
     </fragment>
     <fragment
         android:id="@+id/editSavedText"
-        android:name="com.everspysolutions.everspinner.editSavedText"
+        android:name="com.everspysolutions.everspinner.EditSavedText"
         android:label="fragment_edit_saved_text"
-        tools:layout="@layout/fragment_edit_saved_text" />
+        tools:layout="@layout/fragment_edit_saved_text" >
+<!--        <argument-->
+<!--            android:name="savedFile"-->
+<!--            app:argType="com.everspysolutions.everspinner.savedTextFile.SavedTextFile" />-->
+        <argument android:name="savedFile"
+            app:argType="com.everspysolutions.everspinner.savedTextFile.SavedTextFile"
+            app:nullable="true" />
+    </fragment>
 </navigation>

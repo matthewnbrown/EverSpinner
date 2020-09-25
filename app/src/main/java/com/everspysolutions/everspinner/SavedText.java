@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +17,7 @@ import com.everspysolutions.everspinner.dummy.DummyContent;
 /**
  * A fragment representing a list of Items.
  */
-public class savedText extends Fragment {
+public class SavedText extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -29,13 +28,13 @@ public class savedText extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public savedText() {
+    public SavedText() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static savedText newInstance(int columnCount) {
-        savedText fragment = new savedText();
+    public static SavedText newInstance(int columnCount) {
+        SavedText fragment = new SavedText();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

@@ -34,11 +34,5 @@
         android:name="com.everspysolutions.everspinner.EditSavedText"
         android:label="fragment_edit_saved_text"
         tools:layout="@layout/fragment_edit_saved_text" >
-<!--        <argument-->
-<!--            android:name="savedFile"-->
-<!--            app:argType="com.everspysolutions.everspinner.savedTextFile.SavedTextFile" />-->
-        <argument android:name="savedFile"
-            app:argType="com.everspysolutions.everspinner.savedTextFile.SavedTextFile"
-            app:nullable="true" />
     </fragment>
 </navigation>

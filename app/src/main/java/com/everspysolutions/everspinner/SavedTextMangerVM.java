@@ -23,9 +23,14 @@ public class SavedTextMangerVM extends ViewModel {
     public LiveData<SavedTextFile> getActiveText() {
         if (activeText == null) {
             activeText = new MutableLiveData<SavedTextFile>();
+            activeText.setValue(new SavedTextFile());
             // TODO: Try to get default saved text if it exists
         }
         return activeText;
+    }
+
+    public void setActiveText (SavedTextFile savedTextFile) {
+        activeText.setValue(savedTextFile);
     }
 
     private void loadSavedData(){

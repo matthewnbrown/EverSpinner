@@ -33,6 +33,8 @@ public class Spinner extends Fragment implements OnClickListener {
 
     private static final String INITTEXT = "This {is|is not} good UI design";
 
+    private SavedTextMangerVM model;
+
     private TextView inputTextBox, outputTextBox;
     private Button copyBtn, pasteBtn, spinBtn, saveBtn;
     private SavedTextFile activeTextFile;
@@ -60,11 +62,8 @@ public class Spinner extends Fragment implements OnClickListener {
     }
 
     @Override
-    // TODO: setup initial buttons
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        SavedTextMangerVM model = new ViewModelProvider(this).get(SavedTextMangerVM.class);
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(INITTEXT);
@@ -74,7 +73,6 @@ public class Spinner extends Fragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_spinner, container, false);
     }
@@ -111,11 +109,18 @@ public class Spinner extends Fragment implements OnClickListener {
         spinBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
 
-        inputTextBox = getView().findViewById(R.id.txt_spinner_input);
-        outputTextBox = getView().findViewById(R.id.txt_spinner_output);
-    }
+        inputTextBox = view.findViewById(R.id.txt_spinner_input);
+        outputTextBox = view.findViewById(R.id.txt_spinner_output);
 
-    
+        // Detect changing of actively selected text
+        model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
+        this.activeTextFile = model.getActiveText().getValue();
+        model.getActiveText().observe(getViewLifecycleOwner(), activeText -> {
+            activeTextFile = activeText;
+            inputTextBox.setText(activeText.getText());
+        });
+
+    }
 
     public void onPasteClick(View view) {
         ClipboardManager cb = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -135,13 +140,10 @@ public class Spinner extends Fragment implements OnClickListener {
         this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
     }
     public void onSaveClick(View view) {
-        if(activeTextFile == null) {
-            activeTextFile = new SavedTextFile("", inputTextBox.getText().toString());
-        }
-        SpinnerDirections.ActionSpinnerToEditSavedText action
-                = SpinnerDirections.actionSpinnerToEditSavedText(activeTextFile);
 
-        Navigation.findNavController(view).navigate(action);
+        activeTextFile.setText(inputTextBox.getText().toString());
+        Navigation.findNavController(view).navigate(
+                SpinnerDirections.actionSpinnerToEditSavedText());
     }
 
     /**

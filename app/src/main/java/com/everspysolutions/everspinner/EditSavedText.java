@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
  */
 public class EditSavedText extends Fragment implements OnClickListener {
 
+    private SavedTextMangerVM model;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,9 +62,6 @@ public class EditSavedText extends Fragment implements OnClickListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             //mParam1 = getArguments().getString(ARG_PARAM1);
-
-            savedTextFile =
-                    (SavedTextFile) EditSavedTextArgs.fromBundle(getArguments()).getSavedFile();
         }
     }
 
@@ -76,15 +75,20 @@ public class EditSavedText extends Fragment implements OnClickListener {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
         view.findViewById(R.id.btn_edit_saved_save).setOnClickListener(this);
 
-        inputTextBox = (TextView) view.findViewById(R.id.edit_saved_label);
-        labelTextBox = view.findViewById(R.id.edit_saved_input_text);
+        inputTextBox = view.findViewById(R.id.edit_saved_input_text);
+        labelTextBox = view.findViewById(R.id.edit_saved_label);
         TextView date = view.findViewById(R.id.edit_saved_date_created);
-        inputTextBox.setText(savedTextFile.getText());
-        labelTextBox.setText(savedTextFile.getLabel());
-        date.setText(savedTextFile.getTimeCreated().toString());
+
+        // Detect changing of actively selected text
+        model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
+        model.getActiveText().observe(getViewLifecycleOwner(), activeText -> {
+            savedTextFile = activeText;
+            inputTextBox.setText(activeText.getText());
+            labelTextBox.setText(activeText.getLabel());
+            date.setText(activeText.getTimeCreated().toString());
+        });
 
     }
 
@@ -98,7 +102,9 @@ public class EditSavedText extends Fragment implements OnClickListener {
     private void onSaveClick(View v) {
         savedTextFile.setLabel(labelTextBox.getText().toString());
         savedTextFile.setText(inputTextBox.getText().toString());
-        savedTextFile.saveToDisk();
+        savedTextFile.saveToDisk(getContext());
+
+        model.setActiveText(savedTextFile);
 
         Navigation.findNavController(v).navigateUp();
     }

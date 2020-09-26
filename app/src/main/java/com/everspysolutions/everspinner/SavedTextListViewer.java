@@ -17,7 +17,7 @@ import com.everspysolutions.everspinner.dummy.DummyContent;
 /**
  * A fragment representing a list of Items.
  */
-public class SavedText extends Fragment {
+public class SavedTextListViewer extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -28,13 +28,13 @@ public class SavedText extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public SavedText() {
+    public SavedTextListViewer() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static SavedText newInstance(int columnCount) {
-        SavedText fragment = new SavedText();
+    public static SavedTextListViewer newInstance(int columnCount) {
+        SavedTextListViewer fragment = new SavedTextListViewer();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

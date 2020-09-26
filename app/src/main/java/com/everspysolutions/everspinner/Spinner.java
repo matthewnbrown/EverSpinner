@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -28,7 +29,7 @@ import java.util.Random;
  * Use the {@link Spinner#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Spinner extends Fragment implements OnClickListener{
+public class Spinner extends Fragment implements OnClickListener {
 
     private static final String INITTEXT = "This {is|is not} good UI design";
 
@@ -62,6 +63,9 @@ public class Spinner extends Fragment implements OnClickListener{
     // TODO: setup initial buttons
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SavedTextMangerVM model = new ViewModelProvider(this).get(SavedTextMangerVM.class);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(INITTEXT);
         }
@@ -111,6 +115,8 @@ public class Spinner extends Fragment implements OnClickListener{
         outputTextBox = getView().findViewById(R.id.txt_spinner_output);
     }
 
+    
+
     public void onPasteClick(View view) {
         ClipboardManager cb = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData cbContents = cb.getPrimaryClip();
@@ -121,25 +127,23 @@ public class Spinner extends Fragment implements OnClickListener{
         }
         inputTextBox.setText(newInput);
     }
-
     public void onCopyClick(View view) {
         ClipboardManager cb = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         cb.setPrimaryClip(ClipData.newPlainText("Spun Text", this.outputTextBox.getText()));
     }
-
     public void onSpinClick(View view) {
         this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
     }
     public void onSaveClick(View view) {
-        activeTextFile = new SavedTextFile();
+        if(activeTextFile == null) {
+            activeTextFile = new SavedTextFile("", inputTextBox.getText().toString());
+        }
         SpinnerDirections.ActionSpinnerToEditSavedText action
                 = SpinnerDirections.actionSpinnerToEditSavedText(activeTextFile);
-        //Spinner
-        //spinnerDirections.ActionSpinnerToEditSavedText action =
-         //       spinnerDirections.actionSpinnerToEditSavedText(activeTextFile);
 
         Navigation.findNavController(view).navigate(action);
     }
+
     /**
      * Error checks and spins text
      * @param text Text to be spun

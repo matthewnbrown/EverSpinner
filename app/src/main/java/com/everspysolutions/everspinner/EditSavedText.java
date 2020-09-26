@@ -4,23 +4,22 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link EditSavedText#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditSavedText extends Fragment {
+public class EditSavedText extends Fragment implements OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +77,8 @@ public class EditSavedText extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        view.findViewById(R.id.btn_edit_saved_save).setOnClickListener(this);
+
         inputTextBox = (TextView) view.findViewById(R.id.edit_saved_label);
         labelTextBox = view.findViewById(R.id.edit_saved_input_text);
         TextView date = view.findViewById(R.id.edit_saved_date_created);
@@ -85,5 +86,20 @@ public class EditSavedText extends Fragment {
         labelTextBox.setText(savedTextFile.getLabel());
         date.setText(savedTextFile.getTimeCreated().toString());
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_edit_saved_save) {
+            onSaveClick(v);
+        }
+    }
+
+    private void onSaveClick(View v) {
+        savedTextFile.setLabel(labelTextBox.getText().toString());
+        savedTextFile.setText(inputTextBox.getText().toString());
+        savedTextFile.saveToDisk();
+
+        Navigation.findNavController(v).navigateUp();
     }
 }

@@ -6,7 +6,7 @@
     app:startDestination="@id/spinner">
     <fragment
         android:id="@+id/savedText"
-        android:name="com.everspysolutions.everspinner.SavedText"
+        android:name="com.everspysolutions.everspinner.SavedTextListViewer"
         android:label="fragment_saved_text_list"
         tools:layout="@layout/fragment_saved_text_list" >
         <action

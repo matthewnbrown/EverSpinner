@@ -7,19 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.everspysolutions.everspinner.dummy.DummyContent.DummyItem;
+import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem}.
+ * {@link RecyclerView.Adapter} that can display a {@link SavedTextFile}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<SavedTextFile> mValues;
 
-    public MyItemRecyclerViewAdapter(List<DummyItem> items) {
+    public MyItemRecyclerViewAdapter(List<SavedTextFile> items) {
         mValues = items;
     }
 
@@ -33,8 +33,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mLabelView.setText("LABEL:" + mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).details);
+        holder.mLabelView.setText(mValues.get(position).getLabel());
+        holder.mContentView.setText(mValues.get(position).getText());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
         public final View mView;
         public final TextView mContentView;
         public final TextView mLabelView;
-        public DummyItem mItem;
+        public SavedTextFile mItem;
 
         public ViewHolder(View view) {
             super(view);

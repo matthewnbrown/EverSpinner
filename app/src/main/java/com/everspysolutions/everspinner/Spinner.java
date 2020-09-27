@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
+import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
 import java.util.ArrayList;
 import java.util.List;

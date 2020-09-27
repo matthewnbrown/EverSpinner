@@ -1,6 +1,8 @@
 package com.everspysolutions.everspinner;
 
-import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
+import android.content.Context;
+
+import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
 import java.util.List;
 
@@ -24,13 +26,16 @@ public class SavedTextMangerVM extends ViewModel {
         if (activeText == null) {
             activeText = new MutableLiveData<SavedTextFile>();
             activeText.setValue(new SavedTextFile());
-            // TODO: Try to get default saved text if it exists
         }
         return activeText;
     }
 
     public void setActiveText (SavedTextFile savedTextFile) {
         activeText.setValue(savedTextFile);
+    }
+
+    public void setTextList(List<SavedTextFile> savedTextFileList){
+        savedTexts.setValue(savedTextFileList);
     }
 
     private void loadSavedData(){

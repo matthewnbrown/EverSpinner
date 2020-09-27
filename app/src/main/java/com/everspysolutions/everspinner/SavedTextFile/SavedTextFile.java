@@ -1,8 +1,7 @@
-package com.everspysolutions.everspinner.savedTextFile;
+package com.everspysolutions.everspinner.SavedTextFile;
 
 import android.content.Context;
 import android.util.Xml;
-import android.view.View;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -17,14 +16,21 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class SavedTextFile implements Serializable {
-    private static final String SAVE_FOLDER_PATH = "saved_text/";
+    private static final String SAVE_FOLDER_PATH = "saved_text";
     private String filename;
     private String text;
     private String label;
@@ -97,8 +103,18 @@ public class SavedTextFile implements Serializable {
 
     private void saveFile(Context ctx) {
         try {
-            FileOutputStream fos;
-            fos = ctx.openFileOutput(SAVE_FOLDER_PATH.concat(filename), Context.MODE_APPEND);
+            File outputDir = new File(ctx.getFilesDir(), SAVE_FOLDER_PATH);
+            File outputFile = new File(outputDir, filename);
+
+            if(!outputDir.exists()){
+                outputDir.mkdir();
+            }
+            if(!outputFile.exists()){
+                outputFile.createNewFile();
+            }
+
+           // FileOutputStream fos = ctx.openFileOutput(outputFile, Context.MODE_APPEND);
+            FileOutputStream fos = new FileOutputStream(outputFile);
 
             XmlSerializer serializer = Xml.newSerializer();
             serializer.setOutput(fos, "UTF-8");
@@ -139,7 +155,7 @@ public class SavedTextFile implements Serializable {
 
     }
 
-    private SavedTextFile loadFile(File file, Context ctx){
+    private static SavedTextFile loadFile(File file, Context ctx){
         String inputData = "";
         try {
             FileInputStream fis = new FileInputStream(file);
@@ -176,5 +192,23 @@ public class SavedTextFile implements Serializable {
             e.printStackTrace();
         }
         return new SavedTextFile();
+    }
+
+    public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx){
+        return loadAllSavedTextFiles(ctx, SAVE_FOLDER_PATH);
+    }
+    public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx, String path){
+        List<SavedTextFile> loadedFiles = new ArrayList<SavedTextFile>();
+
+        File mydir = ctx.getDir(path, Context.MODE_PRIVATE);
+        mydir.getAbsoluteFile();
+        File lister = mydir.getAbsoluteFile();
+        for (String list : lister.list())
+        {
+            //
+        }
+
+
+        return loadedFiles;
     }
 }

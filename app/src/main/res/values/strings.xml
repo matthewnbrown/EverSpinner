@@ -22,4 +22,6 @@
     <string name="saved_set_as_default_text">Set as default input text</string>
     <string name="saved_date_created">Date Created:</string>
     <string name="enter_label_title">Enter label/title</string>
+
+    <string name="saved_folder_name">saved_text/</string>
 </resources>

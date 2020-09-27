@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.everspysolutions.everspinner.savedTextFile.SavedTextFile;
+import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
 /**
  * A simple {@link Fragment} subclass.

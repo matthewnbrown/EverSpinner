@@ -4,13 +4,24 @@ import android.content.Context;
 import android.util.Xml;
 import android.view.View;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class SavedTextFile implements Serializable {
     private static final String SAVE_FOLDER_PATH = "saved_text/";
@@ -29,12 +40,26 @@ public class SavedTextFile implements Serializable {
         this.filename = UUID.randomUUID().toString();
     }
 
+    /**
+     * Generate savedTextFile from a label/text. Should not be used for regenerating old saves
+     * @param label
+     * @param text
+     */
     public SavedTextFile(String label, String text){
         this.text = text;
         this.label = label;
         this.timeCreated = new Date();
         this.lastEdit = new Date();
         this.filename = UUID.randomUUID().toString();
+    }
+
+    /**
+     * Generate a savedTextFile from a file
+     * @param file file to parse from
+     */
+    public SavedTextFile(File file, Context ctx) {
+        timeCreated = new Date();
+
     }
 
     public String getLabel() {
@@ -112,5 +137,44 @@ public class SavedTextFile implements Serializable {
             e.printStackTrace();
         }
 
+    }
+
+    private SavedTextFile loadFile(File file, Context ctx){
+        String inputData = "";
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis);
+
+            char[] inputBuffer = new char[fis.available()];
+            isr.read(inputBuffer);
+
+            inputData = new String(inputBuffer);
+
+            isr.close();
+            fis.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Convert to XML
+        try {
+            InputStream is = new ByteArrayInputStream(inputData.getBytes(StandardCharsets.UTF_8));
+            //ArrayList<XmlData> xmlDataList = new ArrayList<XmlData>()
+            DocumentBuilderFactory dbf;
+            DocumentBuilder db;
+            NodeList items = null;
+            Document dom;
+
+            dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+            dom = db.parse(is);
+
+            dom.getDocumentElement().normalize();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new SavedTextFile();
     }
 }

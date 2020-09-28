@@ -31,10 +31,16 @@ public class SavedTextMangerVM extends ViewModel {
     }
 
     public void setActiveText (SavedTextFile savedTextFile) {
+        if (activeText == null) {
+            activeText = new MutableLiveData<SavedTextFile>();
+        }
         activeText.setValue(savedTextFile);
     }
 
     public void setTextList(List<SavedTextFile> savedTextFileList){
+        if (savedTexts == null) {
+            savedTexts = new MutableLiveData<List<SavedTextFile>>();
+        }
         savedTexts.setValue(savedTextFileList);
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Xml;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
@@ -15,12 +16,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -34,7 +37,7 @@ public class SavedTextFile implements Serializable {
     private String filename;
     private String text;
     private String label;
-    private final Date timeCreated;
+    private Date timeCreated;
     private Date lastEdit;
     private Boolean unsavedChanges = false;
 
@@ -64,8 +67,7 @@ public class SavedTextFile implements Serializable {
      * @param file file to parse from
      */
     public SavedTextFile(File file, Context ctx) {
-        timeCreated = new Date();
-
+        loadFile(file, ctx);
     }
 
     public String getLabel() {
@@ -155,7 +157,12 @@ public class SavedTextFile implements Serializable {
 
     }
 
-    private static SavedTextFile loadFile(File file, Context ctx){
+    /**
+     * Reads data from passed file to fill in data for current savedfile
+     * @param file File to read from
+     * @param ctx App context
+     */
+    private void loadFile(File file, Context ctx){
         String inputData = "";
         try {
             FileInputStream fis = new FileInputStream(file);
@@ -174,6 +181,7 @@ public class SavedTextFile implements Serializable {
         }
 
         // Convert to XML
+
         try {
             InputStream is = new ByteArrayInputStream(inputData.getBytes(StandardCharsets.UTF_8));
             //ArrayList<XmlData> xmlDataList = new ArrayList<XmlData>()
@@ -188,10 +196,42 @@ public class SavedTextFile implements Serializable {
 
             dom.getDocumentElement().normalize();
 
+            items = dom.getElementsByTagName("SavedText");
+
+            SimpleDateFormat dateFormat =
+                    new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+            for (int i = 0; i < items.getLength(); i++)
+            {
+                Node item = items.item(i);
+                NodeList children = item.getChildNodes();
+
+                for(int j = 0; j < children.getLength(); j++){
+                    String nodeName = children.item(j).getNodeName();
+                    String nodeVal = children.item(j).getTextContent();
+                    switch (nodeName){
+                        case "UUID":
+                            this.filename = nodeVal;
+                            break;
+                        case "Label":
+                            this.label = nodeVal;
+                            break;
+                        case "CreationTime":
+                            this.timeCreated = dateFormat.parse(nodeVal);
+                            break;
+                        case "LastEditTime":
+                            this.lastEdit = dateFormat.parse(nodeVal);
+                            break;
+                        case "Text":
+                            this.text = nodeVal;
+                            break;
+                    }
+
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new SavedTextFile();
     }
 
     public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx){
@@ -200,12 +240,11 @@ public class SavedTextFile implements Serializable {
     public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx, String path){
         List<SavedTextFile> loadedFiles = new ArrayList<SavedTextFile>();
 
-        File mydir = ctx.getDir(path, Context.MODE_PRIVATE);
-        mydir.getAbsoluteFile();
-        File lister = mydir.getAbsoluteFile();
-        for (String list : lister.list())
+        File inputDir = new File(ctx.getFilesDir(), path);
+        File lister = inputDir.getAbsoluteFile();
+        for(File file : lister.listFiles())
         {
-            //
+            loadedFiles.add(new SavedTextFile(file, ctx));
         }
 
 

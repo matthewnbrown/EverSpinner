@@ -249,4 +249,8 @@ public class SavedTextFile implements Serializable {
 
         return loadedFiles;
     }
+
+    public boolean equals(SavedTextFile y){
+        return this.filename.equals(y.filename);
+    }
 }

@@ -169,7 +169,7 @@ public class SavedTextFile implements Serializable {
             InputStreamReader isr = new InputStreamReader(fis);
 
             char[] inputBuffer = new char[fis.available()];
-            isr.read(inputBuffer);
+            int res = isr.read(inputBuffer);
 
             inputData = new String(inputBuffer);
 
@@ -234,6 +234,10 @@ public class SavedTextFile implements Serializable {
         }
     }
 
+    public boolean delete(Context ctx) {
+        File dir = new File(ctx.getFilesDir(), SAVE_FOLDER_PATH);
+        return (new File(dir,this.filename)).delete();
+    }
     public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx){
         return loadAllSavedTextFiles(ctx, SAVE_FOLDER_PATH);
     }

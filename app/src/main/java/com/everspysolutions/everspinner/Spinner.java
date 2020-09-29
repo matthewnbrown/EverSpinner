@@ -140,8 +140,10 @@ public class Spinner extends Fragment implements OnClickListener {
         this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
     }
     public void onSaveClick(View view) {
-
-        activeTextFile.setText(inputTextBox.getText().toString());
+        String text = inputTextBox.getText().toString();
+        activeTextFile = new SavedTextFile();
+        activeTextFile.setText(text);
+        model.setActiveText(activeTextFile);
         Navigation.findNavController(view).navigate(
                 SpinnerDirections.actionSpinnerToEditSavedText());
     }

@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 /**
@@ -75,16 +77,12 @@ public class SavedTextListViewer extends Fragment {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
-            recyclerView.setAdapter(new SavedFileRecyclerViewAdapter(model.getTextList().getValue()));
+            recyclerView.setAdapter(new SavedFileRecyclerViewAdapter(model));
         }
         return view;
     }
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-    }
-
-    private void loadSavedFilesFromDisk() {
+    public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
 
     }
 }

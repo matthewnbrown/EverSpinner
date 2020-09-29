@@ -1,28 +1,37 @@
 package com.everspysolutions.everspinner;
 
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link SavedTextFile}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFileRecyclerViewAdapter.ViewHolder> {
 
     private final List<SavedTextFile> mValues;
+    private final SavedTextFile activeItem;
+    private SavedTextMangerVM model;
 
-    public SavedFileRecyclerViewAdapter(List<SavedTextFile> items) {
-        mValues = items;
+    public SavedFileRecyclerViewAdapter(SavedTextMangerVM model) {
+        mValues = model.getTextList().getValue();
+        this.activeItem = model.getActiveText().getValue();
+        this.model = model;
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -33,8 +42,27 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mLabelView.setText(mValues.get(position).getLabel());
-        holder.mContentView.setText(mValues.get(position).getText());
+        holder.mLabelView.setText(holder.mItem.getLabel());
+        holder.mContentView.setText(holder.mItem.getText());
+
+        // Highlight item if it is selected
+        if(holder.mItem.equals(activeItem)){
+            holder.mContainer.setBackgroundColor(Color.GREEN);
+        } else {
+            holder.mContainer.setBackgroundColor(Color.TRANSPARENT);
+        }
+
+        holder.mEditTextBtn.setOnClickListener(view -> {
+            model.setActiveText(holder.mItem);
+            Navigation.findNavController(view)
+                    .navigate(SavedTextListViewerDirections.actionSavedTextToEditSavedText());
+        });
+
+        holder.mDelTextBtn.setOnClickListener(view ->{
+            holder.mItem.delete(view.getContext());
+            model.getTextList().getValue().remove(position);
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -46,6 +74,9 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         public final View mView;
         public final TextView mContentView;
         public final TextView mLabelView;
+        public final LinearLayout mContainer;
+        public final ImageButton mEditTextBtn;
+        public final ImageButton mDelTextBtn;
         public SavedTextFile mItem;
 
         public ViewHolder(View view) {
@@ -53,6 +84,9 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
             mView = view;
             mLabelView = (TextView) view.findViewById(R.id.item_saved_label);
             mContentView = (TextView) view.findViewById(R.id.item_saved_preview);
+            mContainer = (LinearLayout) view.findViewById(R.id.savedText_container);
+            mEditTextBtn = (ImageButton) view.findViewById(R.id.item_saved_edit);
+            mDelTextBtn = (ImageButton) view.findViewById(R.id.item_saved_delete);
         }
 
         @Override
@@ -60,4 +94,5 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
 }

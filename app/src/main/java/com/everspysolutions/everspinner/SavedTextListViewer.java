@@ -75,7 +75,7 @@ public class SavedTextListViewer extends Fragment {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                     layoutManager.getOrientation());
             recyclerView.addItemDecoration(dividerItemDecoration);
-            recyclerView.setAdapter(new MyItemRecyclerViewAdapter(model.getTextList().getValue()));
+            recyclerView.setAdapter(new SavedFileRecyclerViewAdapter(model.getTextList().getValue()));
         }
         return view;
     }

@@ -247,7 +247,6 @@ public class SavedTextFile implements Serializable {
             loadedFiles.add(new SavedTextFile(file, ctx));
         }
 
-
         return loadedFiles;
     }
 }

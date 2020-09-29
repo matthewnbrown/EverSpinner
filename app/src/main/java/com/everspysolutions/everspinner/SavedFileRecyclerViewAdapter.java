@@ -15,11 +15,11 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link SavedTextFile}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
+public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFileRecyclerViewAdapter.ViewHolder> {
 
     private final List<SavedTextFile> mValues;
 
-    public MyItemRecyclerViewAdapter(List<SavedTextFile> items) {
+    public SavedFileRecyclerViewAdapter(List<SavedTextFile> items) {
         mValues = items;
     }
 

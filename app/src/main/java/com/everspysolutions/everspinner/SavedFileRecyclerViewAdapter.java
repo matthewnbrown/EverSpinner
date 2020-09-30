@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 
@@ -59,9 +62,39 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         });
 
         holder.mDelTextBtn.setOnClickListener(view ->{
-            holder.mItem.delete(view.getContext());
-            model.getTextList().getValue().remove(position);
-            notifyDataSetChanged();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage
+                    ("Are you sure you want to delete \"" + holder.mItem.getLabel() +"\"?");
+            builder.setCancelable(true);
+
+            builder.setPositiveButton(
+                    "Yes",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            holder.mItem.delete(view.getContext());
+                            model.getTextList().getValue().remove(position);
+                            notifyDataSetChanged();
+
+                            CharSequence text = "Deleted saved text.";
+                            int duration = Toast.LENGTH_SHORT;
+                            Toast toast = Toast.makeText(view.getContext(), text, duration);
+                            toast.show();
+
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.setNegativeButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.show();
         });
     }
 

@@ -6,6 +6,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -29,7 +30,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
     private SavedTextMangerVM model;
 
     public SavedFileRecyclerViewAdapter(SavedTextMangerVM model) {
-        mValues = model.getTextList().getValue();
+        this.mValues = model.getTextList().getValue();
         this.activeItem = model.getActiveText().getValue();
         this.model = model;
     }
@@ -55,6 +56,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
             holder.mContainer.setBackgroundColor(Color.TRANSPARENT);
         }
 
+        // Edit button switches to EditSavedText fragment
         holder.mEditTextBtn.setOnClickListener(view -> {
             model.setActiveText(holder.mItem);
             Navigation.findNavController(view)
@@ -62,39 +64,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         });
 
         holder.mDelTextBtn.setOnClickListener(view ->{
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setMessage
-                    ("Are you sure you want to delete \"" + holder.mItem.getLabel() +"\"?");
-            builder.setCancelable(true);
-
-            builder.setPositiveButton(
-                    "Yes",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            holder.mItem.delete(view.getContext());
-                            model.getTextList().getValue().remove(position);
-                            notifyDataSetChanged();
-
-                            CharSequence text = "Deleted saved text.";
-                            int duration = Toast.LENGTH_SHORT;
-                            Toast toast = Toast.makeText(view.getContext(), text, duration);
-                            toast.show();
-
-                            dialog.cancel();
-                        }
-                    });
-
-            builder.setNegativeButton(
-                    "No",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-            AlertDialog alert = builder.create();
-            alert.show();
+            onDeleteClick(view.getContext(), holder, position);
         });
     }
 
@@ -128,4 +98,39 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         }
     }
 
+    private void onDeleteClick(Context ctx, final ViewHolder holder, int position){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setMessage
+                ("Are you sure you want to delete \"" + holder.mItem.getLabel() +"\"?");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        holder.mItem.delete(ctx);
+                        model.getTextList().getValue().remove(position);
+                        notifyDataSetChanged();
+
+                        CharSequence text = "Deleted saved text.";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(ctx, text, duration);
+                        toast.show();
+
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

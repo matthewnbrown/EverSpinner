@@ -51,7 +51,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
 
         // Highlight item if it is selected
         if(holder.mItem.equals(activeItem)){
-            holder.mContainer.setBackgroundColor(Color.GREEN);
+            holder.mContainer.setCardBackgroundColor(Color.parseColor("#aff2ae"));
         } else {
             holder.mContainer.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -77,7 +77,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         public final View mView;
         public final TextView mContentView;
         public final TextView mLabelView;
-        public final LinearLayout mContainer;
+        public final CardView mContainer;
         public final ImageButton mEditTextBtn;
         public final ImageButton mDelTextBtn;
         public SavedTextFile mItem;
@@ -87,7 +87,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
             mView = view;
             mLabelView = (TextView) view.findViewById(R.id.item_saved_label);
             mContentView = (TextView) view.findViewById(R.id.item_saved_preview);
-            mContainer = (LinearLayout) view.findViewById(R.id.savedText_container);
+            mContainer = (CardView) view.findViewById(R.id.savedText_container);
             mEditTextBtn = (ImageButton) view.findViewById(R.id.item_saved_edit);
             mDelTextBtn = (ImageButton) view.findViewById(R.id.item_saved_delete);
         }

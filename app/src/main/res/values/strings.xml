@@ -24,4 +24,6 @@
     <string name="enter_label_title">Enter label/title</string>
 
     <string name="saved_folder_name">saved_text/</string>
+    <string name="edit_saved_text_cd">Edit saved text</string>
+    <string name="delete_saved_text_cd">Delete saved text</string>
 </resources>

@@ -63,9 +63,6 @@ public class SavedTextListViewer extends Fragment {
         savedList = SavedTextFile.loadAllSavedTextFiles(getContext());
 
         model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
-
-        model.getActiveText().observe(getViewLifecycleOwner(), activeText -> {
-        });
         model.setTextList(savedList);
 
         // Set the adapter

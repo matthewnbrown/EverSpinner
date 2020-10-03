@@ -63,8 +63,13 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
                     .navigate(SavedTextListViewerDirections.actionSavedTextToEditSavedText());
         });
 
-        holder.mDelTextBtn.setOnClickListener(view ->{
-            onDeleteClick(view.getContext(), holder, position);
+        holder.mDelTextBtn.setOnClickListener
+                (view -> onDeleteClick(view.getContext(), holder, position));
+
+        holder.mContainer.setOnClickListener(view -> {
+            model.setActiveText(holder.mItem);
+            Navigation.findNavController(view)
+                    .navigate(SavedTextListViewerDirections.actionSavedTextToSpinner());
         });
     }
 
@@ -85,19 +90,23 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mLabelView = (TextView) view.findViewById(R.id.item_saved_label);
-            mContentView = (TextView) view.findViewById(R.id.item_saved_preview);
-            mContainer = (CardView) view.findViewById(R.id.savedText_container);
-            mEditTextBtn = (ImageButton) view.findViewById(R.id.item_saved_edit);
-            mDelTextBtn = (ImageButton) view.findViewById(R.id.item_saved_delete);
+            mLabelView = view.findViewById(R.id.item_saved_label);
+            mContentView = view.findViewById(R.id.item_saved_preview);
+            mContainer = view.findViewById(R.id.savedText_container);
+            mEditTextBtn = view.findViewById(R.id.item_saved_edit);
+            mDelTextBtn = view.findViewById(R.id.item_saved_delete);
         }
 
+        @NotNull
         @Override
         public String toString() {
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
 
+    private void onCardClick(Context ctx) {
+
+    }
     private void onDeleteClick(Context ctx, final ViewHolder holder, int position){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -107,28 +116,22 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
 
         builder.setPositiveButton(
                 "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        holder.mItem.delete(ctx);
-                        model.getTextList().getValue().remove(position);
-                        notifyDataSetChanged();
+                (dialog, id) -> {
+                    holder.mItem.delete(ctx);
+                    model.getTextList().getValue().remove(position);
+                    notifyDataSetChanged();
 
-                        CharSequence text = "Deleted saved text.";
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(ctx, text, duration);
-                        toast.show();
+                    CharSequence text = "Deleted saved text.";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(ctx, text, duration);
+                    toast.show();
 
-                        dialog.cancel();
-                    }
+                    dialog.cancel();
                 });
 
         builder.setNegativeButton(
                 "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
         alert.show();

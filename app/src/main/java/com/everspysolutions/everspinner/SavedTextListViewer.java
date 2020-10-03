@@ -60,10 +60,11 @@ public class SavedTextListViewer extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_saved_text_list, container, false);
 
-        savedList = SavedTextFile.loadAllSavedTextFiles(getContext());
+        //savedList = SavedTextFile.loadAllSavedTextFiles(getContext());
 
         model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
-        model.setTextList(savedList);
+        //model.setTextList(savedList);
+        savedList = model.getTextList().getValue();
 
         // Set the adapter
         if (view instanceof RecyclerView) {

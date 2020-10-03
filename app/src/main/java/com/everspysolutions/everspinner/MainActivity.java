@@ -14,8 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private NavController navController ;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         NavHostFragment navHostFragment =
                 (NavHostFragment) supportFragmentManager.findFragmentById(R.id.nav_host_fragment);
-        navController = navHostFragment.getNavController();
+        NavController navController = navHostFragment.getNavController();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
         bottomNav.setSelectedItemId(R.id.spinner_container);
 

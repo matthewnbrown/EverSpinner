@@ -1,5 +1,7 @@
 package com.everspysolutions.everspinner;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -7,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
+import com.google.android.material.checkbox.MaterialCheckBox;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +27,8 @@ import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 public class EditSavedText extends Fragment implements OnClickListener {
 
     private SavedTextMangerVM model;
+    private MaterialCheckBox setDefaultCB;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -77,6 +83,7 @@ public class EditSavedText extends Fragment implements OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         view.findViewById(R.id.btn_edit_saved_save).setOnClickListener(this);
 
+        setDefaultCB = view.findViewById(R.id.edit_saved_set_default_cb);
         inputTextBox = view.findViewById(R.id.edit_saved_input_text);
         labelTextBox = view.findViewById(R.id.edit_saved_label);
         TextView date = view.findViewById(R.id.edit_saved_date_created);
@@ -106,6 +113,12 @@ public class EditSavedText extends Fragment implements OnClickListener {
 
         model.setActiveText(savedTextFile);
 
+        if(setDefaultCB.isChecked()){
+            SharedPreferences sharedPref =
+                    PreferenceManager.getDefaultSharedPreferences(v.getContext());
+            sharedPref.edit().putString("default_text_id", savedTextFile.getID()).apply();
+
+        }
         Navigation.findNavController(v).navigateUp();
     }
 }

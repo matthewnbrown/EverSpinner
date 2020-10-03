@@ -3,7 +3,9 @@ package com.everspysolutions.everspinner;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View.OnClickListener;
 
 import androidx.annotation.Nullable;
@@ -119,6 +121,28 @@ public class Spinner extends Fragment implements OnClickListener {
             activeTextFile = activeText;
             inputTextBox.setText(activeText.getText());
         });
+
+
+        model.setTextList(SavedTextFile.loadAllSavedTextFiles(getContext()));
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(getContext());
+        String defaultTextID = sharedPref.getString("default_text_id", null);
+
+        List<SavedTextFile> stfList = model.getTextList().getValue();
+
+        if(defaultTextID != null && stfList != null && activeTextFile == null){
+            for(SavedTextFile stf : stfList){
+                if(stf.getID().equals(defaultTextID)){
+                    activeTextFile=stf;
+                    model.setActiveText(stf);
+                    break;
+                }
+            }
+        }
+
+        if(activeTextFile == null) {
+            model.setActiveText(new SavedTextFile());
+        }
 
     }
 

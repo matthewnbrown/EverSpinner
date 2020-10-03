@@ -16,35 +16,32 @@ public class SavedTextMangerVM extends ViewModel {
 
     public LiveData<List<SavedTextFile>> getTextList() {
         if (savedTexts == null) {
-            savedTexts = new MutableLiveData<List<SavedTextFile>>();
-            loadSavedData();
+            savedTexts = new MutableLiveData<>();
         }
         return savedTexts;
     }
 
     public LiveData<SavedTextFile> getActiveText() {
         if (activeText == null) {
-            activeText = new MutableLiveData<SavedTextFile>();
-            activeText.setValue(new SavedTextFile());
+            activeText = new MutableLiveData<>();
         }
         return activeText;
     }
 
     public void setActiveText (SavedTextFile savedTextFile) {
         if (activeText == null) {
-            activeText = new MutableLiveData<SavedTextFile>();
+            activeText = new MutableLiveData<>();
         }
         activeText.setValue(savedTextFile);
     }
 
     public void setTextList(List<SavedTextFile> savedTextFileList){
         if (savedTexts == null) {
-            savedTexts = new MutableLiveData<List<SavedTextFile>>();
+            savedTexts = new MutableLiveData<>();
         }
         savedTexts.setValue(savedTextFileList);
     }
 
     private void loadSavedData(){
-        // TODO: Implement loading saved data
     }
 }

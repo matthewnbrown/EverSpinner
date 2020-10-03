@@ -24,14 +24,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-<!--        <com.google.android.material.checkbox.MaterialCheckBox-->
-<!--            android:id="@+id/edit_saved_set_default"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/saved_set_as_default_text"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"/>-->
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/edit_saved_set_default_cb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/saved_set_as_default_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
         <Button
             android:id="@+id/btn_edit_saved_save"
             android:layout_width="wrap_content"

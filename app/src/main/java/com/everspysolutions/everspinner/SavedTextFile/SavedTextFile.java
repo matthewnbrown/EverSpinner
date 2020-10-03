@@ -70,6 +70,8 @@ public class SavedTextFile implements Serializable {
         loadFile(file, ctx);
     }
 
+    public String getID() { return filename; }
+
     public String getLabel() {
         return label;
     }

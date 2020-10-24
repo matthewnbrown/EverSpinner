@@ -50,6 +50,9 @@ public class SavedTextListViewer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
+        savedList = model.getTextList().getValue();
+
         if (getArguments() != null) {
             //mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -59,12 +62,6 @@ public class SavedTextListViewer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_saved_text_list, container, false);
-
-        //savedList = SavedTextFile.loadAllSavedTextFiles(getContext());
-
-        model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
-        //model.setTextList(savedList);
-        savedList = model.getTextList().getValue();
 
         // Set the adapter
         if (view instanceof RecyclerView) {

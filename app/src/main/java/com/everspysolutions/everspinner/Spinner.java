@@ -60,6 +60,9 @@ public class Spinner extends Fragment implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
+        model.setTextList(SavedTextFile.loadAllSavedTextFiles(getContext()));
     }
 
     @Override
@@ -108,15 +111,14 @@ public class Spinner extends Fragment implements OnClickListener {
         outputTextBox = view.findViewById(R.id.txt_spinner_output);
 
         // Detect changing of actively selected text
-        model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
+
         this.activeTextFile = model.getActiveText().getValue();
+
         model.getActiveText().observe(getViewLifecycleOwner(), activeText -> {
             activeTextFile = activeText;
             inputTextBox.setText(activeText.getText());
         });
 
-
-        model.setTextList(SavedTextFile.loadAllSavedTextFiles(getContext()));
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(getContext());
         String defaultTextID = sharedPref.getString("default_text_id", null);
@@ -139,6 +141,12 @@ public class Spinner extends Fragment implements OnClickListener {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        updateActiveText(inputTextBox.getText().toString());
+        super.onDestroyView();
+    }
+
     public void onPasteClick(View view) {
         ClipboardManager cb = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData cbContents = cb.getPrimaryClip();
@@ -159,11 +167,11 @@ public class Spinner extends Fragment implements OnClickListener {
     public void onSaveClick(View view) {
         String text = inputTextBox.getText().toString();
         activeTextFile = new SavedTextFile();
-        activeTextFile.setText(text);
-        model.setActiveText(activeTextFile);
+        updateActiveText(text);
         Navigation.findNavController(view).navigate(
                 SpinnerDirections.actionSpinnerToEditSavedText());
     }
+
 
     /**
      * Error checks and spins text
@@ -181,4 +189,8 @@ public class Spinner extends Fragment implements OnClickListener {
         return TextSpinner.solveSelections(text);
     }
 
+    private void updateActiveText(String text){
+        activeTextFile.setText(text);
+        model.setActiveText(activeTextFile);
+    }
 }

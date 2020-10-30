@@ -36,6 +36,11 @@ public class DatamuseQuery {
         return getJSON("http://api.datamuse.com/words?rd="+s);
     }
 
+    public String findSynonym(String word) {
+        String s = word.replaceAll(" ", "+");
+        return getJSON("http://api.datamuse.com/words?rd="+s);
+    }
+
     /**
      * Returns a list of similar words to the word/phrase supplied beginning with the specified letter(s).
      * @param word A word or phrase.
@@ -92,7 +97,7 @@ public class DatamuseQuery {
      */
     public String soundsSimilar(String word) {
         String s = word.replaceAll(" ", "+");
-        return getJSON("http://api.datamuse.com/words?sl=" + s);
+        return getJSON("http://api.datamuse.com/words?rel_syn=" + s);
     }
 
     /**

@@ -4,11 +4,16 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View.OnClickListener;
 
 import androidx.annotation.Nullable;
+import androidx.core.os.HandlerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -21,8 +26,17 @@ import android.widget.TextView;
 
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
+import com.everspysolutions.everspinner.SynonymFinder.SynonymCacheLoaderSaver;
+import com.everspysolutions.everspinner.SynonymFinder.SynonymFinder;
 import com.everspysolutions.everspinner.TextSpinner.TextSpinner;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,14 +44,12 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class Spinner extends Fragment implements OnClickListener {
-
-    private static final String INITTEXT = "This {is|is not} good UI design";
-
+    
     private SavedTextMangerVM model;
 
     private TextView inputTextBox, outputTextBox;
     private SavedTextFile activeTextFile;
-
+    private SynonymFinder synonymFinder = new SynonymFinder();
     public Spinner() {
         // Required empty public constructor
     }
@@ -52,7 +64,7 @@ public class Spinner extends Fragment implements OnClickListener {
     public static Spinner newInstance(String inputText) {
         Spinner fragment = new Spinner();
         Bundle args = new Bundle();
-        args.putString(INITTEXT, inputText);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,6 +80,8 @@ public class Spinner extends Fragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        synonymFinder.setSynonymCacher(
+                SynonymCacheLoaderSaver.loadLocalSynonymCache(this.getContext()));
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_spinner, container, false);
     }
@@ -162,7 +176,8 @@ public class Spinner extends Fragment implements OnClickListener {
         cb.setPrimaryClip(ClipData.newPlainText("Spun Text", this.outputTextBox.getText()));
     }
     public void onSpinClick(View view) {
-        this.outputTextBox.setText(spinText(this.inputTextBox.getText().toString()));
+        //outputTextBox.setText(spinText(inputTextBox.getText().toString()));
+        new AsyncSpinText().execute(inputTextBox.getText().toString());
     }
     public void onSaveClick(View view) {
         String text = inputTextBox.getText().toString();
@@ -186,11 +201,66 @@ public class Spinner extends Fragment implements OnClickListener {
         if (selectionCount == -2) {
             return getString(R.string.spinner_error_parse_2);
         }
+        text = fulfillSynonymRequests(text);
         return TextSpinner.solveSelections(text);
+    }
+
+    private String fulfillSynonymRequests(String text) {
+        Pattern p = Pattern.compile("[Ss][Yy][Nn]\\([^\\(\\)]*\\)");
+        Matcher m = p.matcher(text);
+        List<String> allMatches = new ArrayList<String>();
+        List<int[]> matchIndex = new ArrayList<int[]>();
+
+        while(m.find()) {
+            String match = m.group();
+            allMatches.add(match.substring(4, match.length()-1));
+            matchIndex.add(new int[] {m.start(), m.end()});
+        }
+
+        if(allMatches.size() == 0) {
+            return text;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int lastPos = 0;
+        for(int i = 0; i < allMatches.size(); i++) {
+
+            sb.append(text.substring(lastPos, matchIndex.get(i)[0]));
+            lastPos = matchIndex.get(i)[1];
+            String syn = synonymFinder.findRandomSynonym(requireContext(), allMatches.get(i));
+            sb.append(syn);
+        }
+
+        if(this.getContext() != null) {
+            SynonymCacheLoaderSaver.saveLocalSynonymCache
+                    (this.getContext(), synonymFinder.getSynonymCacher());
+        }
+
+        return sb.toString();
     }
 
     private void updateActiveText(String text){
         activeTextFile.setText(text);
         model.setActiveText(activeTextFile);
     }
+
+    private class AsyncSpinText extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... strings) {
+            String text = strings[0];
+            text = spinText(text);
+            return text;
+        }
+
+        @Override
+        protected void onPostExecute(String text) {
+            super.onPostExecute(text);
+            outputTextBox.setText(text);
+        }
+    }
+
 }

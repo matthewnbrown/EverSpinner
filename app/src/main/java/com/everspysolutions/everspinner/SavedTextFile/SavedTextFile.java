@@ -248,9 +248,11 @@ public class SavedTextFile implements Serializable {
 
         File inputDir = new File(ctx.getFilesDir(), path);
         File lister = inputDir.getAbsoluteFile();
-        for(File file : lister.listFiles())
-        {
-            loadedFiles.add(new SavedTextFile(file, ctx));
+
+        if(lister.listFiles() != null) {
+            for (File file : lister.listFiles()) {
+                loadedFiles.add(new SavedTextFile(file, ctx));
+            }
         }
 
         return loadedFiles;

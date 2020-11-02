@@ -72,7 +72,7 @@ public class JSONParse {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            synonyms = null;
+            synonyms = new Synonym[0];
         }
 
         return synonyms;

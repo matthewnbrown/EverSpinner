@@ -18,8 +18,9 @@ public class SynonymCacher {
         lastUpdateTime = new Date();
     }
 
-    public SynonymCacher (JSONObject object) {
+    public SynonymCacher (JSONObject object, Date lastEditTime) {
         cache = new Hashtable<>();
+        this.lastUpdateTime = lastEditTime;
         addFromJSONObject(object);
     }
 

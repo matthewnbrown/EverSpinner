@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 import com.everspysolutions.everspinner.SynonymFinder.SynonymCacheLoaderSaver;
+import com.everspysolutions.everspinner.SynonymFinder.SynonymCacher;
 import com.everspysolutions.everspinner.SynonymFinder.SynonymFinder;
 import com.everspysolutions.everspinner.TextSpinner.TextSpinner;
 
@@ -51,7 +52,8 @@ public class Spinner extends Fragment implements OnClickListener {
 
     private TextView inputTextBox, outputTextBox;
     private SavedTextFile activeTextFile;
-    private SynonymFinder synonymFinder = new SynonymFinder();
+    private SynonymFinder synonymFinder;
+
     public Spinner() {
         // Required empty public constructor
     }
@@ -77,13 +79,20 @@ public class Spinner extends Fragment implements OnClickListener {
 
         model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
         model.setTextList(SavedTextFile.loadAllSavedTextFiles(getContext()));
+
+        SynonymCacher cache = SynonymCacheLoaderSaver.loadLocalSynonymCache(getContext());
+        if(cache == null) {
+            synonymFinder = new SynonymFinder();
+        } else {
+            synonymFinder = new SynonymFinder(cache);
+        }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        synonymFinder.setSynonymCacher(
-                SynonymCacheLoaderSaver.loadLocalSynonymCache(this.getContext()));
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_spinner, container, false);
     }

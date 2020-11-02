@@ -7,8 +7,10 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 
 public class SynonymCacheLoaderSaver {
@@ -17,12 +19,41 @@ public class SynonymCacheLoaderSaver {
     private static FileWriter file;
 
     public static SynonymCacher loadLocalSynonymCache (Context ctx) {
-        return new SynonymCacher();
+        File file = new File(ctx.getCacheDir(), FILENAME);
+
+        String inputData;
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis);
+
+            char[] inputBuffer = new char[fis.available()];
+            int res = isr.read(inputBuffer);
+
+            inputData = new String(inputBuffer);
+
+            isr.close();
+            fis.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        SynonymCacher synonymCacher;
+        try {
+            JSONObject jsonObject = new JSONObject(inputData);
+            synonymCacher = new SynonymCacher(jsonObject, getLastSaveTime(ctx));
+        }  catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return synonymCacher;
     }
 
     public static void saveLocalSynonymCache(Context ctx, SynonymCacher cache) {
         JSONObject obj = cache.toJSONObject();
-        File outputDir = ctx.getFilesDir();
+        File outputDir = ctx.getCacheDir();
         File outputFile = new File(outputDir, FILENAME);
 
         try {
@@ -49,7 +80,7 @@ public class SynonymCacheLoaderSaver {
     }
 
     public static Date getLastSaveTime(Context ctx) {
-        File outputDir = ctx.getFilesDir();
+        File outputDir = ctx.getCacheDir();
         File file = new File(outputDir, FILENAME);
 
         return new Date(file.lastModified());

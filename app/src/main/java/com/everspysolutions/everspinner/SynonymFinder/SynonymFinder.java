@@ -11,7 +11,7 @@ public class SynonymFinder {
     private JSONParse jsonParse = new JSONParse();
     private Random random = new Random();
     public SynonymFinder(){
-
+        this.synonymCacher = new SynonymCacher();
     }
 
     public SynonymFinder(SynonymCacher cacher){

@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -30,6 +31,7 @@ import com.everspysolutions.everspinner.SynonymFinder.SynonymCacheLoaderSaver;
 import com.everspysolutions.everspinner.SynonymFinder.SynonymFinder;
 import com.everspysolutions.everspinner.TextSpinner.TextSpinner;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -44,7 +46,7 @@ import java.util.regex.Pattern;
  * create an instance of this fragment.
  */
 public class Spinner extends Fragment implements OnClickListener {
-    
+
     private SavedTextMangerVM model;
 
     private TextView inputTextBox, outputTextBox;
@@ -177,7 +179,7 @@ public class Spinner extends Fragment implements OnClickListener {
     }
     public void onSpinClick(View view) {
         //outputTextBox.setText(spinText(inputTextBox.getText().toString()));
-        new AsyncSpinText().execute(inputTextBox.getText().toString());
+        new AsyncSpinText(this).execute(inputTextBox.getText().toString());
     }
     public void onSaveClick(View view) {
         String text = inputTextBox.getText().toString();
@@ -228,10 +230,19 @@ public class Spinner extends Fragment implements OnClickListener {
             sb.append(text.substring(lastPos, matchIndex.get(i)[0]));
             lastPos = matchIndex.get(i)[1];
             String syn = synonymFinder.findRandomSynonym(requireContext(), allMatches.get(i));
-            sb.append(syn);
+
+            if(syn == null){
+                sb.append(allMatches.get(i));
+            } else {
+                sb.append(syn);
+            }
         }
 
-        if(this.getContext() != null) {
+        sb.append(text.substring(lastPos, text.length()));
+
+        if(this.getContext() != null
+                && SynonymCacheLoaderSaver.getLastSaveTime(this.getContext()).getTime()
+                < synonymFinder.getSynonymCacher().getLastUpdateTime().getTime()) {
             SynonymCacheLoaderSaver.saveLocalSynonymCache
                     (this.getContext(), synonymFinder.getSynonymCacher());
         }
@@ -244,7 +255,14 @@ public class Spinner extends Fragment implements OnClickListener {
         model.setActiveText(activeTextFile);
     }
 
-    private class AsyncSpinText extends AsyncTask<String, Void, String> {
+    private static class AsyncSpinText extends AsyncTask<String, Void, String> {
+
+        private WeakReference<Spinner> activityReference;
+
+        AsyncSpinText(Spinner ctx) {
+            activityReference = new WeakReference<>(ctx);
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -252,14 +270,23 @@ public class Spinner extends Fragment implements OnClickListener {
         @Override
         protected String doInBackground(String... strings) {
             String text = strings[0];
-            text = spinText(text);
+            Spinner spinner = activityReference.get();
+            text = spinner.spinText(text);
             return text;
         }
 
         @Override
         protected void onPostExecute(String text) {
             super.onPostExecute(text);
-            outputTextBox.setText(text);
+            Spinner spinner = activityReference.get();
+            if(spinner == null || spinner.isRemoving()) return;
+
+            try {
+                TextView outputBox = spinner.getActivity().findViewById(R.id.txt_spinner_output);
+                outputBox.setText(text);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

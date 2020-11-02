@@ -4,15 +4,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
 
 public class SynonymCacher {
 
     Hashtable<String, Synonym[]> cache;
+    Date lastUpdateTime;
 
     public SynonymCacher () {
         cache = new Hashtable<>();
+        lastUpdateTime = new Date();
     }
 
     public SynonymCacher (JSONObject object) {
@@ -21,18 +24,19 @@ public class SynonymCacher {
     }
 
     public void addItemToCache(String word, Synonym[] synonyms) {
+        lastUpdateTime = new Date();
         cache.put(word, synonyms);
     }
 
     public Synonym[] fetchSynonymsFromCache(String word) {
-        if(cache.contains(word)) {
+        if(cache.containsKey(word)) {
             return cache.get(word);
         }
         return null;
     }
 
     public Boolean cacheContains(String word) {
-        return cache.contains(word);
+        return cache.containsKey(word);
     }
 
     public JSONObject toJSONObject() {
@@ -61,7 +65,7 @@ public class SynonymCacher {
     public void addFromJSONObject(JSONObject object) {
         JSONParse parser = new JSONParse();
         Iterator<String> keys = object.keys();
-
+        lastUpdateTime = new Date();
         try {
             while (keys.hasNext()) {
                 String key = keys.next();
@@ -78,6 +82,11 @@ public class SynonymCacher {
             e.printStackTrace();
         }
     }
+
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
 
 
 }

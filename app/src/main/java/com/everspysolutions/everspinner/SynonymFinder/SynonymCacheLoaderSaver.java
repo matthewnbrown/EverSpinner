@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 public class SynonymCacheLoaderSaver {
     private static final String FILENAME = "synonymcache.json";
@@ -45,6 +46,14 @@ public class SynonymCacheLoaderSaver {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Date getLastSaveTime(Context ctx) {
+        File outputDir = ctx.getFilesDir();
+        File file = new File(outputDir, FILENAME);
+
+        return new Date(file.lastModified());
+
     }
 
 }

@@ -18,7 +18,7 @@ public class SynonymFinder {
         this.synonymCacher = cacher;
     }
 
-    public Synonym[] findSynonym(Context ctx, String word) {
+    public Synonym[] findSynonyms(Context ctx, String word) {
 
         word = word.toLowerCase();
 
@@ -42,7 +42,7 @@ public class SynonymFinder {
      * @return A random synonym
      */
     public String findRandomSynonym(Context ctx, String word) {
-        Synonym[] result = findSynonym(ctx, word);
+        Synonym[] result = findSynonyms(ctx, word);
 
         if(result.length > 0) {
             return result[random.nextInt(result.length)].getWord();
@@ -56,7 +56,7 @@ public class SynonymFinder {
      * @return A synonym
      */
     public String findRandomWeightedSynonym(Context ctx, String word){
-        Synonym[] result = findSynonym(ctx, word);
+        Synonym[] result = findSynonyms(ctx, word);
 
         int scoreSum = 0;
         for(Synonym syn : result){

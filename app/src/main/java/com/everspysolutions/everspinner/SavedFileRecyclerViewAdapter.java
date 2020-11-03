@@ -107,6 +107,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
     private void onCardClick(Context ctx) {
 
     }
+
     private void onDeleteClick(Context ctx, final ViewHolder holder, int position){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -118,7 +119,9 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
                 "Yes",
                 (dialog, id) -> {
                     holder.mItem.delete(ctx);
-                    model.getTextList().getValue().remove(position);
+                    if(model.getTextList().getValue() != null) {
+                        model.getTextList().getValue().remove(position);
+                    }
                     notifyDataSetChanged();
 
                     CharSequence text = "Deleted saved text.";

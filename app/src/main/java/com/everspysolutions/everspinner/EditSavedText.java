@@ -113,6 +113,10 @@ public class EditSavedText extends Fragment implements OnClickListener {
 
         model.setActiveText(savedTextFile);
 
+        if (model.getTextList().getValue() != null) {
+            model.getTextList().getValue().add(savedTextFile);
+        }
+
         if(setDefaultCB.isChecked()){
             SharedPreferences sharedPref =
                     PreferenceManager.getDefaultSharedPreferences(v.getContext());

@@ -183,7 +183,6 @@ public class SavedTextFile implements Serializable {
         }
 
         // Convert to XML
-
         try {
             InputStream is = new ByteArrayInputStream(inputData.getBytes(StandardCharsets.UTF_8));
             //ArrayList<XmlData> xmlDataList = new ArrayList<XmlData>()

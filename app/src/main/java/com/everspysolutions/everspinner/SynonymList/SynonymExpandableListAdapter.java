@@ -9,7 +9,13 @@ import android.widget.TextView;
 
 import com.everspysolutions.everspinner.R;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
+
+    private List<String> _listDataHeader;
+    private HashMap<String, List<String>> _listDataChild;
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
@@ -29,13 +35,13 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         final String childText = (String) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
+            LayoutInflater infalInflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.list_item, null);
+            convertView = infalInflater.inflate(R.layout.synonym_list_item, null);
         }
 
         TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
+                .findViewById(R.id.synonym_item_label);
 
         txtListChild.setText(childText);
         return convertView;
@@ -54,7 +60,8 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return 0;
+        //return this._listDataHeader.size();
     }
 
     @Override
@@ -65,15 +72,15 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-//        String headerTitle = (String) getGroup(groupPosition);
-//        if (convertView == null) {
-//            LayoutInflater infalInflater = (LayoutInflater) this._context
-//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            convertView = infalInflater.inflate(R.layout.list_group, null);
-//        }
-//
-//        TextView lblListHeader = (TextView) convertView
-//                .findViewById(R.id.lblListHeader);
+        String headerTitle = (String) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) parent.getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.synonym_item_list_group, null);
+        }
+
+        TextView lblListHeader = (TextView) convertView
+                .findViewById(R.id.synonym_item_header);
 //        lblListHeader.setTypeface(null, Typeface.BOLD);
 //        lblListHeader.setText(headerTitle);
 

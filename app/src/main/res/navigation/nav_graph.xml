@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_savedText_to_editSavedText"
             app:destination="@id/editSavedText" />
+        <action
+            android:id="@+id/action_savedText_to_synonymExpandableListFragment"
+            app:destination="@id/synonymExpandableListFragment" />
     </fragment>
     <fragment
         android:id="@+id/spinner"
@@ -28,11 +31,32 @@
             android:id="@+id/action_spinner_to_editSavedText"
             app:destination="@id/editSavedText"
             app:launchSingleTop="false" />
+        <action
+            android:id="@+id/action_spinner_to_synonymExpandableListFragment"
+            app:destination="@id/synonymExpandableListFragment" />
+        <action
+            android:id="@+id/action_spinner_to_savedText2"
+            app:destination="@id/savedText" />
+        <action
+            android:id="@+id/action_spinner_to_synonymExpandableListFragment2"
+            app:destination="@id/synonymExpandableListFragment" />
     </fragment>
     <fragment
         android:id="@+id/editSavedText"
         android:name="com.everspysolutions.everspinner.EditSavedText"
         android:label="fragment_edit_saved_text"
         tools:layout="@layout/fragment_edit_saved_text" >
+    </fragment>
+    <fragment
+        android:id="@+id/synonymExpandableListFragment"
+        android:name="com.everspysolutions.everspinner.SynonymList.SynonymExpandableListFragment"
+        android:label="fragment_synonym_item_list"
+        tools:layout="@layout/fragment_synonym_item_list" >
+        <action
+            android:id="@+id/action_synonymExpandableListFragment_to_savedText"
+            app:destination="@id/savedText" />
+        <action
+            android:id="@+id/action_synonymExpandableListFragment_to_spinner"
+            app:destination="@id/spinner" />
     </fragment>
 </navigation>

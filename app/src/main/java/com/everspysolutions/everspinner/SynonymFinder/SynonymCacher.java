@@ -4,12 +4,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class SynonymCacher {
 
+    // TODO: Maybe change Synonym[] away from Array so it can be modified faster
     Hashtable<String, Synonym[]> cache;
     Date lastUpdateTime;
 
@@ -34,6 +38,16 @@ public class SynonymCacher {
             return cache.get(word);
         }
         return null;
+    }
+
+    public Hashtable<String, Synonym[]> getCache() {
+        return cache;
+    }
+
+    public List<String> getBaseWords() {
+        Set<String> keys = cache.keySet();
+
+        return new ArrayList<>(keys);
     }
 
     public Boolean cacheContains(String word) {

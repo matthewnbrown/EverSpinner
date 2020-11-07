@@ -2,6 +2,8 @@ package com.everspysolutions.everspinner.SynonymFinder;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -18,7 +20,7 @@ public class SynonymFinder {
         this.synonymCacher = cacher;
     }
 
-    public Synonym[] findSynonyms(Context ctx, String word) {
+    public ArrayList<Synonym> findSynonyms(Context ctx, String word) {
 
         word = word.toLowerCase();
 
@@ -29,7 +31,8 @@ public class SynonymFinder {
         DatamuseQuery query = new DatamuseQuery();
         String jsonData = query.findSynonym(word);
 
-        Synonym[] synonyms  = jsonParse.parseSynonyms(jsonData);
+        Synonym[] synonymsArray  = jsonParse.parseSynonyms(jsonData);
+        ArrayList<Synonym> synonyms = new ArrayList<>(Arrays.asList(synonymsArray));
         synonymCacher.addItemToCache(word, synonyms);
 
 
@@ -42,10 +45,10 @@ public class SynonymFinder {
      * @return A random synonym
      */
     public String findRandomSynonym(Context ctx, String word) {
-        Synonym[] result = findSynonyms(ctx, word);
+        ArrayList<Synonym>  result = findSynonyms(ctx, word);
 
-        if(result.length > 0) {
-            return result[random.nextInt(result.length)].getWord();
+        if(result.size() > 0) {
+            return result.get(random.nextInt(result.size())).getWord();
         }
         return null;
     }
@@ -55,8 +58,9 @@ public class SynonymFinder {
      * @param word A word or phrase
      * @return A synonym
      */
+    // TODO: IMPLEMENT WEIGHTED SYNONYM FINDER
     public String findRandomWeightedSynonym(Context ctx, String word){
-        Synonym[] result = findSynonyms(ctx, word);
+        ArrayList<Synonym>  result = findSynonyms(ctx, word);
 
         int scoreSum = 0;
         for(Synonym syn : result){

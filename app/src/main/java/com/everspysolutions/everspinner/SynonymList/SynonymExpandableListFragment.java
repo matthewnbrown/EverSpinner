@@ -38,12 +38,10 @@ public class SynonymExpandableListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String SYNONYM_CACHER_KEY = "synonym_cacher_key";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SynonymCacher synonymCacher;
 
     public SynonymExpandableListFragment() {
         // Required empty public constructor
@@ -53,16 +51,15 @@ public class SynonymExpandableListFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param synonymCacher Parameter 1.
      * @return A new instance of fragment SynonymListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SynonymExpandableListFragment newInstance(String param1, String param2) {
+    public static SynonymExpandableListFragment newInstance(SynonymCacher synonymCacher) {
         SynonymExpandableListFragment fragment = new SynonymExpandableListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        //args.put(SYNONYM_CACHER_KEY, synonymCacher);
+        //args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,12 +67,6 @@ public class SynonymExpandableListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
     }
 
     @Override
@@ -92,9 +83,9 @@ public class SynonymExpandableListFragment extends Fragment {
         // Generating Random Data for testing.
         for(int i = 0; i < 6; i++) {
             int childCount = random.nextInt(6);
-            Synonym [] synonyms = new Synonym[childCount];
+            ArrayList<Synonym> synonyms = new ArrayList<>();
             for (int j = 0; j < childCount; j++) {
-                synonyms[j] = new Synonym(Integer.toString(j), random.nextInt(10000));
+                synonyms.add(new Synonym(Integer.toString(j), random.nextInt(10000)));
             }
             synonymCacher.addItemToCache(Integer.toString(i), synonyms);
         }

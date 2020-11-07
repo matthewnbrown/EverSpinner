@@ -30,7 +30,8 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return synonymCacher.fetchSynonymsFromCache(synonymBaseWords.get(groupPosition))[childPosititon];
+        return synonymCacher.fetchSynonymsFromCache(synonymBaseWords.get(groupPosition))
+                .get(childPosititon);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return synonymCacher.fetchSynonymsFromCache(synonymBaseWords.get(groupPosition)).length;
+        return synonymCacher.fetchSynonymsFromCache(synonymBaseWords.get(groupPosition)).size();
     }
 
     @Override
@@ -92,9 +93,9 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.synonym_item_list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.synonym_item_header);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
+
         lblListHeader.setText(headerTitle);
 
         return convertView;

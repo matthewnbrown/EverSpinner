@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -12,9 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SynonymCacher {
-
-    // TODO: Maybe change Synonym[] away from Array so it can be modified faster
-    Hashtable<String, Synonym[]> cache;
+    Hashtable<String, ArrayList<Synonym>> cache;
     Date lastUpdateTime;
 
     public SynonymCacher () {
@@ -28,19 +27,19 @@ public class SynonymCacher {
         addFromJSONObject(object);
     }
 
-    public void addItemToCache(String word, Synonym[] synonyms) {
+    public void addItemToCache(String word, ArrayList<Synonym> synonyms) {
         lastUpdateTime = new Date();
         cache.put(word, synonyms);
     }
 
-    public Synonym[] fetchSynonymsFromCache(String word) {
+    public ArrayList<Synonym> fetchSynonymsFromCache(String word) {
         if(cache.containsKey(word)) {
             return cache.get(word);
         }
         return null;
     }
 
-    public Hashtable<String, Synonym[]> getCache() {
+    public Hashtable<String, ArrayList<Synonym>> getCache() {
         return cache;
     }
 
@@ -86,9 +85,10 @@ public class SynonymCacher {
                 String key = keys.next();
                 if (object.get(key) instanceof JSONArray) {
                     JSONArray obj = (JSONArray) object.get(key);
-                    Synonym[] synonyms = parser.parseSynonyms(obj);
+                    Synonym[] synonymsArray = parser.parseSynonyms(obj);
 
-                    if(synonyms != null) {
+                    if(synonymsArray != null) {
+                        ArrayList<Synonym> synonyms = new ArrayList<>(Arrays.asList(synonymsArray));
                         cache.put(key, synonyms);
                     }
                 }

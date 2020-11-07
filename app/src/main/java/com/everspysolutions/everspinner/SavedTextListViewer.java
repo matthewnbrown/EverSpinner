@@ -53,9 +53,6 @@ public class SavedTextListViewer extends Fragment {
         model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
         savedList = model.getTextList().getValue();
 
-        if (getArguments() != null) {
-            //mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override

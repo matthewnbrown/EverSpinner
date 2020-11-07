@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/synonymExpandableListFragment"
-        android:title="@string/bnav_synonyms"
-        android:icon="@drawable/ic_baseline_collections_bookmark_24"
-        android:enabled="true"/>
-    <item
         android:id="@+id/savedText"
         android:title="@string/bnav_saved"
         android:icon="@drawable/ic_baseline_folder_24"

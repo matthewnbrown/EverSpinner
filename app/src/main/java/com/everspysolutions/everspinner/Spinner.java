@@ -116,6 +116,9 @@ public class Spinner extends Fragment implements OnClickListener {
             case R.id.btn_spinner_save:
                 onSaveClick(v);
                 break;
+            case R.id.btn_spinner_cache:
+                onCacheClick(v);
+                break;
         }
     }
 
@@ -126,11 +129,13 @@ public class Spinner extends Fragment implements OnClickListener {
         Button pasteBtn = view.findViewById(R.id.btn_spinner_paste);
         Button spinBtn = view.findViewById(R.id.btn_spinner_spin);
         Button saveBtn = view.findViewById(R.id.btn_spinner_save);
+        Button cacheBtn = view.findViewById(R.id.btn_spinner_cache);
 
         copyBtn.setOnClickListener(this);
         pasteBtn.setOnClickListener(this);
         spinBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
+        cacheBtn.setOnClickListener(this);
 
         inputTextBox = view.findViewById(R.id.txt_spinner_input);
         outputTextBox = view.findViewById(R.id.txt_spinner_output);
@@ -196,6 +201,12 @@ public class Spinner extends Fragment implements OnClickListener {
         updateActiveText(text);
         Navigation.findNavController(view).navigate(
                 SpinnerDirections.actionSpinnerToEditSavedText());
+    }
+    public void onCacheClick(View view) {
+
+        Navigation.findNavController(view).navigate(SpinnerDirections
+                .actionSpinnerToSynonymExpandableListFragment(synonymFinder.getSynonymCacher())
+        );
     }
 
 

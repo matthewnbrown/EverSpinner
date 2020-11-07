@@ -27,4 +27,10 @@
     <string name="edit_saved_text_cd">Edit saved text</string>
     <string name="delete_saved_text_cd">Delete saved text</string>
     <string name="bnav_synonyms">Synonyms</string>
+    <string name="synonym_score_hint">Synonym score</string>
+    <string name="score_input_label">Score:</string>
+    <string name="spinner_cachebtn_txt">Cache</string>
+    <string name="btn_add_synonym_description">Add a new synonym</string>
+    <string name="synonym_cache_list_label">Synonym Cache</string>
+    <string name="btn_add_baseword_description">Add a new word</string>
 </resources>

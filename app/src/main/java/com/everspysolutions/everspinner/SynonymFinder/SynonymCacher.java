@@ -149,13 +149,12 @@ public class SynonymCacher implements Serializable {
                 break;
             }
         }
-        cache.get(baseWord).add(index, synonym);
-
+        synonyms.add(index, synonym);
+        sortSynonyms(synonyms);
     }
 
     public void sortSynonyms(ArrayList<Synonym> synonyms) {
-        Collections.sort(synonyms, (synonym, t1) -> synonym.getScore() - t1.getScore());
+        Collections.sort(synonyms, (synonym, t1) -> t1.getScore() - synonym.getScore());
     }
-
 
 }

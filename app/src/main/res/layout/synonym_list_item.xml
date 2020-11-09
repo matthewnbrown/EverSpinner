@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
 
-    <EditText
-        android:layout_weight="3"
+    <TextView
+        android:layout_marginStart="?android:attr/expandableListPreferredChildPaddingLeft"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/synonym_item_score"
         android:id="@+id/synonym_item_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Item!"
-        android:inputType="textAutoComplete"
-        />
-    <EditText
-        android:layout_weight="1"
-        android:id="@+id/synonym_item_num"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/score_label_synonym_item"
+        app:layout_constraintRight_toLeftOf="@id/synonym_item_score"
+        app:layout_constraintTop_toTopOf="@id/synonym_item_score"
+        app:layout_constraintBottom_toBottomOf="@id/synonym_item_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"/>
-</LinearLayout>
+        android:labelFor="@id/synonym_item_score"
+        android:text="@string/score_input_label"/>
+    <TextView
+        android:id="@+id/synonym_item_score"
+        app:layout_constraintRight_toLeftOf="@id/btn_edit_syn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btn_edit_syn"
+        app:layout_constraintTop_toTopOf="@id/synonym_item_score"
+        app:layout_constraintBottom_toBottomOf="@id/synonym_item_score"
+        app:layout_constraintRight_toLeftOf="@id/btn_delete_syn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/btn_edit_synonym_desc"
+        android:background="@drawable/ic_baseline_edit_24"/>
+
+    <ImageButton
+        android:id="@+id/btn_delete_syn"
+        app:layout_constraintTop_toTopOf="@id/synonym_item_score"
+        app:layout_constraintBottom_toBottomOf="@id/synonym_item_score"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/btn_delete_synonym_desc"
+        android:background="@drawable/ic_baseline_delete_24"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

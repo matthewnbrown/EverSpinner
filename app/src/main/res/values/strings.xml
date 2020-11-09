@@ -33,4 +33,8 @@
     <string name="btn_add_synonym_description">Add a new synonym</string>
     <string name="synonym_cache_list_label">Synonym Cache</string>
     <string name="btn_add_baseword_description">Add a new word</string>
+    <string name="new_syn_word_input_label">Word:</string>
+    <string name="btn_delete_baseword_desc">Delete baseword from cache</string>
+    <string name="btn_delete_synonym_desc">Delete synonym</string>
+    <string name="btn_edit_synonym_desc">Edit synonym score</string>
 </resources>

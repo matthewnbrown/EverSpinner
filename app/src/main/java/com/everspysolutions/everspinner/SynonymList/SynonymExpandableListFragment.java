@@ -80,9 +80,10 @@ public class SynonymExpandableListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_synonym_item_list, container, false);
 
-        synonymCacher = SynonymExpandableListFragmentArgs
-                .fromBundle(getArguments()).getSynonymCacher();
+//        synonymCacher = SynonymExpandableListFragmentArgs
+//                .fromBundle(getArguments()).getSynonymCacher();
 
+        synonymCacher = SynonymCacheLoaderSaver.loadLocalSynonymCache(rootView.getContext());
         expListView = rootView.findViewById(R.id.synonym_expandable_list);
 
         listAdapter = new SynonymExpandableListAdapter(synonymCacher);
@@ -154,12 +155,5 @@ public class SynonymExpandableListFragment extends Fragment {
         toast.show();
 
     }
-
-    @Override
-    public void onStop() {
-
-        super.onStop();
-
-
-    }
+    
 }

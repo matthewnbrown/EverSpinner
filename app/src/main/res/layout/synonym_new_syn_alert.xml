@@ -41,6 +41,7 @@
         app:layout_constraintRight_toRightOf="@id/new_syn_word_input"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:maxLength="9"
         android:inputType="number"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

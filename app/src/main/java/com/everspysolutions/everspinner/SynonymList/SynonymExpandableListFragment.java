@@ -87,7 +87,7 @@ public class SynonymExpandableListFragment extends Fragment {
         expListView.setGroupIndicator(null);
 
         ImageButton newBaseWordBtn = rootView.findViewById(R.id.btn_add_new_baseword);
-        newBaseWordBtn.setOnClickListener(view -> onNewBaseWordClick(view));
+        newBaseWordBtn.setOnClickListener(this::onNewBaseWordClick);
 
         // Inflate the layout for this fragment
         return rootView;

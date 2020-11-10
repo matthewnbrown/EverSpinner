@@ -50,22 +50,26 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
+        final View row;
         final Synonym synonym = (Synonym) getChild(groupPosition, childPosition);
 
         ChildViewHolder holder;
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) parent.getContext()
+            LayoutInflater inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.synonym_list_item,  parent, false);
+            row = inflater.inflate(R.layout.synonym_list_item,  parent, false);
 
-            holder = new ChildViewHolder(convertView, groupPosition, childPosition, synonym.getWord());
-            convertView.setTag(holder);
+            holder = new ChildViewHolder(row);
+            row.setTag(holder);
 
         } else {
-            holder = (ChildViewHolder) convertView.getTag();
+            row = convertView;
+            holder = (ChildViewHolder) row.getTag();
         }
 
+
+        holder.updateChildInfo(groupPosition, childPosition, synonym.getWord());
 
         holder.lblSynonym.setText(synonym.getWord());
         holder.mScoreText.setText(Integer.toString(synonym.getScore()));
@@ -74,7 +78,7 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         holder.btnEditSyn.setOnClickListener(view -> onEditSynonymClick(view, null, holder));
 
 
-        return convertView;
+        return row;
     }
 
     @Override
@@ -110,11 +114,13 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.synonym_item_list_group, parent, false);
 
-            holder = new GroupViewHolder(convertView, groupPosition);
+            holder = new GroupViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
+
+        holder.updateGroupInfo(groupPosition);
 
         // Prevent group from not being expandable due to focusable button
         holder.newSynBtn.setFocusable(false);
@@ -173,31 +179,23 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         builder.setView(dialoglayout);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(!TextUtils.isDigitsOnly(scoreTxt.getText())
-                        || scoreTxt.getText().toString().length() == 0) {
-                    return;
-                }
-
-                String word = wordTxt.getText().toString().toLowerCase().trim();
-                int score = Integer.parseInt(scoreTxt.getText().toString());
-
-                if(cHolder != null){
-                    synonymCacher.updateSynonymScore((String) getGroup(cHolder.groupPos), word, score);
-                } else {
-                    synonymCacher.addSynonymToBaseWord((String) getGroup(pHolder.groupPos), word, score);
-                }
-                notifyDataSetChanged();
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            if(!TextUtils.isDigitsOnly(scoreTxt.getText())
+                    || scoreTxt.getText().toString().length() == 0) {
+                return;
             }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+
+            String word = wordTxt.getText().toString().toLowerCase().trim();
+            int score = Integer.parseInt(scoreTxt.getText().toString());
+
+            if(cHolder != null){
+                synonymCacher.updateSynonymScore((String) getGroup(cHolder.groupPos), word, score);
+            } else {
+                synonymCacher.addSynonymToBaseWord((String) getGroup(pHolder.groupPos), word, score);
             }
+            notifyDataSetChanged();
         });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
 
         builder.show();
@@ -207,17 +205,16 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         synonymEditAlert(view, holder, null);
     }
 
-    public void  onEditSynonymClick(View view, GroupViewHolder pHolder, ChildViewHolder cHolder) {
+    public void onEditSynonymClick(View view, GroupViewHolder pHolder, ChildViewHolder cHolder) {
         synonymEditAlert(view, pHolder, cHolder);
     }
-
 
     public void onDeleteBaseWordClick(View view, GroupViewHolder holder) {
         Context ctx = view.getContext();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setMessage
-                ("Are you sure you want to delete \"" + ( (String) getGroup(holder.groupPos)) +"\"?");
+                ("Are you sure you want to delete \"" + getGroup(holder.groupPos) + "\"?");
         builder.setCancelable(true);
 
         builder.setPositiveButton(
@@ -282,16 +279,18 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         public final TextView lblListHeader;
         public final ImageButton newSynBtn;
         public final ImageButton delWordBtn;
-        public final int groupPos;
+        public int groupPos;
 
-        public GroupViewHolder(View view, int groupPos)
+        public GroupViewHolder(View view)
         {
             this.mView = view;
             this.lblListHeader = view.findViewById(R.id.synonym_item_header);
             this.newSynBtn = view.findViewById(R.id.btn_add_new_synonym);
             this.delWordBtn = view.findViewById(R.id.btn_delete_baseword);
-            this.groupPos = groupPos;
+        }
 
+        public void updateGroupInfo (int groupPos) {
+            this.groupPos = groupPos;
         }
 
     }
@@ -302,18 +301,22 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         public final TextView mScoreText;
         public final TextView lblSynonym;
         public final ImageButton btnEditSyn;
-        public final ImageButton btnDeleteSyn;
-        public final int groupPos;
-        public final int childPos;
-        public final String synonym;
+        //public final ImageButton btnDeleteSyn;
+        public int groupPos;
+        public int childPos;
+        public String synonym;
 
-        public ChildViewHolder(View view, int groupPos, int childPos, String synonym)
+        public ChildViewHolder(View view)
         {
             this.mView = view;
             this.mScoreText = view.findViewById(R.id.synonym_item_score);
             this.lblSynonym = view.findViewById(R.id.synonym_item_label);
             this.btnEditSyn = view.findViewById(R.id.btn_edit_syn);
-            this.btnDeleteSyn = view.findViewById(R.id.btn_delete_syn);
+            //this.btnDeleteSyn = view.findViewById(R.id.btn_delete_syn);
+
+        }
+
+        public void updateChildInfo(int groupPos, int childPos, String synonym) {
             this.groupPos = groupPos;
             this.childPos = childPos;
             this.synonym = synonym;

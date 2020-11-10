@@ -21,6 +21,19 @@
             android:textSize="18sp"
             android:text="@string/synonym_cache_list_label"
             android:textColor="@color/colorPrimary"/>
+
+        <ImageButton
+            android:id="@+id/btn_save_synonymcache"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btn_add_new_baseword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="end"
+            android:contentDescription="@string/btn_save_cache_desc"
+            android:background="@drawable/ic_baseline_save_24"/>
+
         <ImageButton
             android:id="@+id/btn_add_new_baseword"
             app:layout_constraintTop_toTopOf="parent"

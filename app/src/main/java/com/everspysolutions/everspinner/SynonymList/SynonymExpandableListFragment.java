@@ -2,6 +2,7 @@ package com.everspysolutions.everspinner.SynonymList;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,12 @@ import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.everspysolutions.everspinner.R;
 import com.everspysolutions.everspinner.SavedFileRecyclerViewAdapter;
 import com.everspysolutions.everspinner.SynonymFinder.Synonym;
+import com.everspysolutions.everspinner.SynonymFinder.SynonymCacheLoaderSaver;
 import com.everspysolutions.everspinner.SynonymFinder.SynonymCacher;
 
 import java.util.ArrayList;
@@ -89,6 +92,9 @@ public class SynonymExpandableListFragment extends Fragment {
         ImageButton newBaseWordBtn = rootView.findViewById(R.id.btn_add_new_baseword);
         newBaseWordBtn.setOnClickListener(this::onNewBaseWordClick);
 
+        ImageButton saveCacheBtn = rootView.findViewById(R.id.btn_save_synonymcache);
+        saveCacheBtn.setOnClickListener(this::onSaveSynCacheClick);
+
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -132,5 +138,28 @@ public class SynonymExpandableListFragment extends Fragment {
         builder.show();
     }
 
+    public void onSaveSynCacheClick(View view) {
+        final Boolean res = SynonymCacheLoaderSaver
+                .saveLocalSynonymCache(view.getContext(), synonymCacher);
 
+        CharSequence text;
+
+        if (res) {
+            text = "Saved synonym cache.";
+        } else {
+            text = "Failed to save cache.";
+        }
+
+        Toast toast = Toast.makeText(view.getContext(), text, Toast.LENGTH_SHORT);
+        toast.show();
+
+    }
+
+    @Override
+    public void onStop() {
+
+        super.onStop();
+
+
+    }
 }

@@ -143,12 +143,19 @@ public class SynonymCacher implements Serializable {
         ArrayList<Synonym> synonyms = cache.get(baseWord);
         int index = synonyms.size();
 
+        boolean repeated = false;
+
         for(int i = 0; i < synonyms.size(); i++) {
             if (synonym.getScore() > synonyms.get(i).getScore()) {
                 index = i;
                 break;
             }
+//            if (synonyms.get(i).getWord().equals(synonym.getWord())) {
+//                repeated = true;
+//                break;
+//            }
         }
+
         synonyms.add(index, synonym);
         sortSynonyms(synonyms);
     }

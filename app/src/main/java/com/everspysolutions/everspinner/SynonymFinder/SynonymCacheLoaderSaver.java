@@ -51,7 +51,7 @@ public class SynonymCacheLoaderSaver {
         return synonymCacher;
     }
 
-    public static void saveLocalSynonymCache(Context ctx, SynonymCacher cache) {
+    public static Boolean saveLocalSynonymCache(Context ctx, SynonymCacher cache) {
         JSONObject obj = cache.toJSONObject();
         File outputDir = ctx.getCacheDir();
         File outputFile = new File(outputDir, FILENAME);
@@ -69,14 +69,17 @@ public class SynonymCacheLoaderSaver {
             Log.d(TAG, "saveLocalSynonymCache: Saved cache to JSON file");
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         } finally {
             try{
                 file.flush();
                 file.close();
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             }
         }
+        return true;
     }
 
     public static Date getLastSaveTime(Context ctx) {
@@ -84,7 +87,6 @@ public class SynonymCacheLoaderSaver {
         File file = new File(outputDir, FILENAME);
 
         return new Date(file.lastModified());
-
     }
 
 }

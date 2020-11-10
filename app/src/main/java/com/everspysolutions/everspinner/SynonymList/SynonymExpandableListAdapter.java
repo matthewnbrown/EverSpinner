@@ -77,7 +77,6 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         //holder.btnDeleteSyn.setOnClickListener(view -> );
         holder.btnEditSyn.setOnClickListener(view -> onEditSynonymClick(view, null, holder));
 
-
         return row;
     }
 

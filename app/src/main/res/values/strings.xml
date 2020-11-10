@@ -37,4 +37,5 @@
     <string name="btn_delete_baseword_desc">Delete baseword from cache</string>
     <string name="btn_delete_synonym_desc">Delete synonym</string>
     <string name="btn_edit_synonym_desc">Edit synonym score</string>
+    <string name="btn_save_cache_desc">Save synonym cache changes</string>
 </resources>

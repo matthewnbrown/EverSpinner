@@ -84,6 +84,11 @@ public class SynonymExpandableListFragment extends Fragment {
 //                .fromBundle(getArguments()).getSynonymCacher();
 
         synonymCacher = SynonymCacheLoaderSaver.loadLocalSynonymCache(rootView.getContext());
+
+        if (synonymCacher == null) {
+            synonymCacher = new SynonymCacher();
+        }
+
         expListView = rootView.findViewById(R.id.synonym_expandable_list);
 
         listAdapter = new SynonymExpandableListAdapter(synonymCacher);

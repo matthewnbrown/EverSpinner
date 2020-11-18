@@ -58,13 +58,26 @@ public class SynonymFinder {
      * @param word A word or phrase
      * @return A synonym
      */
-    // TODO: IMPLEMENT WEIGHTED SYNONYM FINDER
     public String findRandomWeightedSynonym(Context ctx, String word){
         ArrayList<Synonym>  result = findSynonyms(ctx, word);
 
         int scoreSum = 0;
         for(Synonym syn : result){
             scoreSum += syn.getScore();
+        }
+
+        if (scoreSum <= 0) {
+            return null;
+        }
+
+        int cutOff = random.nextInt(scoreSum);
+
+        for(Synonym syn : result){
+            cutOff -= syn.getScore();
+
+            if(cutOff <= 0){
+                return syn.getWord();
+            }
         }
 
         return null;

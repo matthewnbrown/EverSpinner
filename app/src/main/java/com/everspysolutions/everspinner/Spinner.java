@@ -243,13 +243,15 @@ public class Spinner extends Fragment implements OnClickListener {
             return text;
         }
 
+        loadCacheIfOld();
+
         StringBuilder sb = new StringBuilder();
         int lastPos = 0;
         for(int i = 0; i < allMatches.size(); i++) {
 
             sb.append(text.substring(lastPos, matchIndex.get(i)[0]));
             lastPos = matchIndex.get(i)[1];
-            String syn = synonymFinder.findRandomSynonym(requireContext(), allMatches.get(i));
+            String syn = synonymFinder.findRandomWeightedSynonym(requireContext(), allMatches.get(i));
 
             if(syn == null){
                 sb.append(allMatches.get(i));
@@ -260,14 +262,29 @@ public class Spinner extends Fragment implements OnClickListener {
 
         sb.append(text.substring(lastPos, text.length()));
 
+        saveCacheIfNew();
+
+        return sb.toString();
+    }
+
+
+    private void loadCacheIfOld() {
+        if(this.getContext() != null
+                && SynonymCacheLoaderSaver.getLastSaveTime(this.getContext()).getTime()
+                > synonymFinder.getSynonymCacher().getLastUpdateTime().getTime()) {
+
+            synonymFinder.setSynonymCacher(
+                    SynonymCacheLoaderSaver.loadLocalSynonymCache(this.getContext()));
+        }
+    }
+
+    private void saveCacheIfNew() {
         if(this.getContext() != null
                 && SynonymCacheLoaderSaver.getLastSaveTime(this.getContext()).getTime()
                 < synonymFinder.getSynonymCacher().getLastUpdateTime().getTime()) {
             SynonymCacheLoaderSaver.saveLocalSynonymCache
                     (this.getContext(), synonymFinder.getSynonymCacher());
         }
-
-        return sb.toString();
     }
 
     private void updateActiveText(String text){

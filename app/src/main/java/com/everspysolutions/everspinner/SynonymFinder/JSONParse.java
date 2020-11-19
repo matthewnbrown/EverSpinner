@@ -68,7 +68,13 @@ public class JSONParse {
             synonyms = new Synonym[array.length()];
             for(int i = 0; i < array.length(); i++) {
                 JSONObject object =  array.getJSONObject(i);
-                synonyms[i] = new Synonym(object.getString("word"), object.getInt("score"));
+
+                int score = 0;
+                if(object.has("score")){
+                    score = object.getInt("score");
+                }
+
+                synonyms[i] = new Synonym(object.getString("word"), score);
             }
         } catch (JSONException e) {
             e.printStackTrace();

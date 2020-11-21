@@ -80,7 +80,6 @@ public class SynonymCacheLoaderSaver {
                 file.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                return false;
             }
         }
         return true;

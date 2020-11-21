@@ -21,6 +21,10 @@ public class SynonymCacheLoaderSaver {
     public static SynonymCacher loadLocalSynonymCache (Context ctx) {
         File file = new File(ctx.getCacheDir(), FILENAME);
 
+        if(!file.exists()) {
+            return null;
+        }
+
         String inputData;
         try {
             FileInputStream fis = new FileInputStream(file);

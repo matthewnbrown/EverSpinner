@@ -1,6 +1,8 @@
 package com.everspysolutions.everspinner.SynonymFinder;
 
-public class Synonym {
+import java.io.Serializable;
+
+public class Synonym implements Serializable {
     private String word;
     private int score;
 

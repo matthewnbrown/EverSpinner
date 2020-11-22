@@ -61,7 +61,7 @@ public class SynonymFinder {
     public String findRandomWeightedSynonym(Context ctx, String word){
         ArrayList<Synonym>  result = findSynonyms(ctx, word);
 
-        int scoreSum = 0;
+        int scoreSum = 1;
         for(Synonym syn : result){
             scoreSum += syn.getScore();
         }

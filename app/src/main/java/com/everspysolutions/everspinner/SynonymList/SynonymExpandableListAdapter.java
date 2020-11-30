@@ -74,8 +74,8 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         holder.lblSynonym.setText(synonym.getWord());
         holder.mScoreText.setText(Integer.toString(synonym.getScore()));
 
-        //holder.btnDeleteSyn.setOnClickListener(view -> );
         holder.btnEditSyn.setOnClickListener(view -> onEditSynonymClick(view, null, holder));
+        holder.btnDelSyn.setOnClickListener(view -> onDeleteSynonymClick(view, holder));
 
         return row;
     }
@@ -208,6 +208,7 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         synonymEditAlert(view, pHolder, cHolder);
     }
 
+
     public void onDeleteBaseWordClick(View view, GroupViewHolder holder) {
         Context ctx = view.getContext();
 
@@ -239,7 +240,6 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         builder.show();
     }
 
-    // Unused/
     public void onDeleteSynonymClick(View view, ChildViewHolder holder) {
         Context ctx = view.getContext();
 
@@ -254,7 +254,8 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
                 "Yes",
                 (dialog, id) -> {
                     String baseWord = (String) getGroup(holder.groupPos);
-                    // Delete
+
+                    synonymCacher.removeSynonym(baseWord, synonym.getWord());
 
                     CharSequence text = "Deleted synonym.";
                     int duration = Toast.LENGTH_SHORT;
@@ -300,6 +301,7 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
         public final TextView mScoreText;
         public final TextView lblSynonym;
         public final ImageButton btnEditSyn;
+        public final ImageButton btnDelSyn;
         //public final ImageButton btnDeleteSyn;
         public int groupPos;
         public int childPos;
@@ -311,8 +313,7 @@ public class SynonymExpandableListAdapter extends BaseExpandableListAdapter {
             this.mScoreText = view.findViewById(R.id.synonym_item_score);
             this.lblSynonym = view.findViewById(R.id.synonym_item_label);
             this.btnEditSyn = view.findViewById(R.id.btn_edit_syn);
-            //this.btnDeleteSyn = view.findViewById(R.id.btn_delete_syn);
-
+            this.btnDelSyn = view.findViewById(R.id.btn_delete_syn);
         }
 
         public void updateChildInfo(int groupPos, int childPos, String synonym) {

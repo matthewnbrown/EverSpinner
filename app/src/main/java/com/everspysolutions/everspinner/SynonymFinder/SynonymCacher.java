@@ -112,6 +112,16 @@ public class SynonymCacher implements Serializable {
         cache.remove(baseWord);
     }
 
+    public void removeSynonym(String baseword, String synonymWord) {
+        removeSynonym(baseword, findSynonymIndex(baseword, synonymWord));
+    }
+
+    public void removeSynonym(String baseword, int synonymIndex) {
+        ArrayList<Synonym> synonyms = cache.get(baseword);
+        synonyms.remove(synonymIndex);
+        sortSynonyms(synonyms);
+    }
+
     private int findSynonymIndex(String baseWord, String synonym) {
         ArrayList<Synonym> synonyms = cache.get(baseWord);
 

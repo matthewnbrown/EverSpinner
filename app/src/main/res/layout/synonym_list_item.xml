@@ -28,11 +28,21 @@
         android:text="@string/score_input_label"/>
     <TextView
         android:id="@+id/synonym_item_score"
-        app:layout_constraintRight_toLeftOf="@id/btn_edit_syn"
+        app:layout_constraintRight_toLeftOf="@id/btn_delete_syn"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="100dp"
         android:layout_height="wrap_content" />
+
+    <ImageButton
+        android:id="@+id/btn_delete_syn"
+        app:layout_constraintTop_toTopOf="@id/synonym_item_score"
+        app:layout_constraintBottom_toBottomOf="@id/synonym_item_score"
+        app:layout_constraintRight_toLeftOf="@id/btn_edit_syn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/btn_delete_synonym_desc"
+        android:background="@drawable/ic_baseline_delete_24"/>
 
     <ImageButton
         android:id="@+id/btn_edit_syn"
@@ -43,15 +53,5 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/btn_edit_synonym_desc"
         android:background="@drawable/ic_baseline_edit_24"/>
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/btn_delete_syn"-->
-<!--        app:layout_constraintTop_toTopOf="@id/synonym_item_score"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/synonym_item_score"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:contentDescription="@string/btn_delete_synonym_desc"-->
-<!--        android:background="@drawable/ic_baseline_delete_24"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

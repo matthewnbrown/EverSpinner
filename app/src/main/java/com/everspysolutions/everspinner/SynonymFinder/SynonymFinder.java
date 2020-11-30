@@ -12,6 +12,8 @@ public class SynonymFinder {
     private SynonymCacher synonymCacher;
     private JSONParse jsonParse = new JSONParse();
     private Random random = new Random();
+    private final int maxSynonyms = 10;
+
     public SynonymFinder(){
         this.synonymCacher = new SynonymCacher();
     }
@@ -29,7 +31,7 @@ public class SynonymFinder {
         }
 
         DatamuseQuery query = new DatamuseQuery();
-        String jsonData = query.findSynonym(word);
+        String jsonData = query.findSynonym(word, maxSynonyms);
 
         Synonym[] synonymsArray  = jsonParse.parseSynonyms(jsonData);
         ArrayList<Synonym> synonyms = new ArrayList<>(Arrays.asList(synonymsArray));

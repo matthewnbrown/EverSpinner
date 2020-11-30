@@ -30,9 +30,9 @@ public class DatamuseQuery {
     }
 
     /**
-     * Returns a list of similar words to the word/phrase supplied.
+     * Returns a list of synonyms to the word/phrase supplied.
      * @param word A word of phrase.
-     * @return A list of similar words.
+     * @return A list of synonyms
      */
 
     public String findSynonym(String word) {
@@ -40,15 +40,9 @@ public class DatamuseQuery {
         return getJSON("https://api.datamuse.com/words?rel_syn="+s);
     }
 
-    /**
-     * Returns suggestions for what the user may be typing based on what they have typed so far. Useful for
-     * autocomplete on forms.
-     * @param word The current word or phrase.
-     * @return Suggestions of what the user may be typing.
-     */
-    public String prefixHintSuggestions(String word) {
+    public String findSynonym(String word, int max) {
         String s = word.replaceAll(" ", "+");
-        return getJSON("http://api.datamuse.com/sug?s=" + s);
+        return getJSON("https://api.datamuse.com/words?rel_syn="+s+"&max=" + Integer.toString(max));
     }
 
     /**

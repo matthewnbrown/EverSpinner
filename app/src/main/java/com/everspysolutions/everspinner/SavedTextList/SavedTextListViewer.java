@@ -1,4 +1,4 @@
-package com.everspysolutions.everspinner;
+package com.everspysolutions.everspinner.SavedTextList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.everspysolutions.everspinner.R;
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
+import com.everspysolutions.everspinner.SavedTextMangerVM;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -58,12 +61,14 @@ public class SavedTextListViewer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_saved_text_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+        TextView emptyListText = view.findViewById(R.id.emptyTextList_txt);
+
+        if(savedList.size() > 0) {
+            emptyListText.setVisibility(TextView.GONE);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.savedText_list);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -71,6 +76,10 @@ public class SavedTextListViewer extends Fragment {
             recyclerView.addItemDecoration(dividerItemDecoration);
             recyclerView.setAdapter(new SavedFileRecyclerViewAdapter(model));
         }
+        else {
+            emptyListText.setVisibility(TextView.VISIBLE);
+        }
+
         return view;
     }
     @Override

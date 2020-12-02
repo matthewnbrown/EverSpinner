@@ -1,23 +1,23 @@
-package com.everspysolutions.everspinner;
+package com.everspysolutions.everspinner.SavedTextList;
 
 import androidx.cardview.widget.CardView;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.everspysolutions.everspinner.R;
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
+import com.everspysolutions.everspinner.SavedTextList.SavedTextListViewerDirections;
+import com.everspysolutions.everspinner.SavedTextMangerVM;
 
 import org.jetbrains.annotations.NotNull;
 

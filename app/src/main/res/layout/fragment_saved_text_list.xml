@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/savedText_list"
-    android:name="com.everspysolutions.everspinner.savedText"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".SavedTextListViewer"
-    tools:listitem="@layout/fragment_saved_text" />
+    android:orientation="vertical"
+    tools:context=".SavedTextList.SavedTextListViewer">
+
+    <TextView
+        android:id="@+id/emptyTextList_txt"
+        android:paddingTop="15dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_saved_text_list_notice"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/savedText_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager"
+        android:name="com.everspysolutions.everspinner.savedText"
+        tools:listitem="@layout/fragment_saved_text" />
+
+</LinearLayout>

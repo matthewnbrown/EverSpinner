@@ -2,36 +2,24 @@ package com.everspysolutions.everspinner.SynonymList;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.everspysolutions.everspinner.R;
-import com.everspysolutions.everspinner.SavedFileRecyclerViewAdapter;
-import com.everspysolutions.everspinner.SynonymFinder.Synonym;
 import com.everspysolutions.everspinner.SynonymFinder.SynonymCacheLoaderSaver;
 import com.everspysolutions.everspinner.SynonymFinder.SynonymCacher;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.

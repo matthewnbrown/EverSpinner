@@ -53,8 +53,13 @@ public class JSONParse {
 
     public Synonym[] parseSynonyms(String in) {
 
+
         try {
-            return parseSynonyms(new JSONArray(in));
+            if (in == null) {
+                return parseSynonyms(new JSONArray());
+            } else {
+                return parseSynonyms(new JSONArray(in));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

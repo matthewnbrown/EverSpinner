@@ -1,5 +1,6 @@
 package com.everspysolutions.everspinner;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -299,10 +300,14 @@ public class Spinner extends Fragment implements OnClickListener {
         AsyncSpinText(Spinner ctx) {
             activityReference = new WeakReference<>(ctx);
         }
+        ProgressDialog pdLoading;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pdLoading = new ProgressDialog(activityReference.get().getContext());
+            pdLoading.setMessage("\tSpinning...");
+            pdLoading.show();
         }
         @Override
         protected String doInBackground(String... strings) {
@@ -313,18 +318,27 @@ public class Spinner extends Fragment implements OnClickListener {
         }
 
         @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            pdLoading.dismiss();
+        }
+
+        @Override
         protected void onPostExecute(String text) {
             super.onPostExecute(text);
             Spinner spinner = activityReference.get();
             if(spinner == null || spinner.isRemoving()) return;
-
+            pdLoading.dismiss();
             try {
+
                 TextView outputBox = spinner.getActivity().findViewById(R.id.txt_spinner_output);
                 outputBox.setText(text);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
+
+
     }
 
 }

@@ -6,13 +6,28 @@ import java.util.Random;
 
 public class TextSpinner {
 
+    private Random random;
+
+    public TextSpinner() {
+        this.random = new Random();
+    }
+
+    public TextSpinner(Random random) {
+        this.random = random;
+    }
+
+    public TextSpinner(long seed) {
+        this.random = new Random();
+        random.setSeed(seed);
+    }
+
     /**
      * Spins a properly formatted string of text
      * @param text A string of text which is to be spun. Selections formatted similar to
      *            {A|B|C|{D|E}}
      * @return Text with randomly chosen selections
      */
-    public static String solveSelections(String text) {
+    public String solveSelections(String text) {
         StringBuilder sb = new StringBuilder();
         int cutStartPoint = 0;
         int i = 0;
@@ -68,7 +83,7 @@ public class TextSpinner {
      * @param selection A selection formatted as {options seperated by '|'}
      * @return The chosen option
      */
-    private static String solveSelection(String selection) {
+    private String solveSelection(String selection) {
         String selection2 = selection.substring(1, selection.length() - 1);
         List<String> options = new ArrayList<>();
         int lastPos = 0;
@@ -125,8 +140,7 @@ public class TextSpinner {
      * @param options Array of possible choices
      * @return Chosen option
      */
-    private static String chooseOption(String[] options) {
-        Random rand = new Random();
-        return options[rand.nextInt(options.length)];
+    private String chooseOption(String[] options) {
+        return options[this.random.nextInt(options.length)];
     }
 }

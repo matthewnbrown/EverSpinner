@@ -225,7 +225,8 @@ public class Spinner extends Fragment implements OnClickListener {
             return getString(R.string.spinner_error_parse_2);
         }
         text = fulfillSynonymRequests(text);
-        return TextSpinner.solveSelections(text);
+        TextSpinner textSpinner = new TextSpinner();
+        return textSpinner.solveSelections(text);
     }
 
     private String fulfillSynonymRequests(String text) {

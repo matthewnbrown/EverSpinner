@@ -7,33 +7,35 @@ import org.junit.Test;
 
 public class TextSpinnerTest {
 
-    // Selection Solving
+    private static final long seed = 0;
 
+    // Selection Solving
+    // Simple single choice
     @Test
     public void SolveSimpleSingle(){
         String testCase = "{dog}";
-        String result = TextSpinner.solveSelections(testCase);
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
         Assert.assertEquals("dog", result);
     }
 
     @Test
     public void SolveSimpleMultiple(){
         String testCase = "{dog|dog|dog}";
-        String result = TextSpinner.solveSelections(testCase);
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
         Assert.assertEquals("dog", result);
     }
 
     @Test
     public void SolveSimpleNested(){
         String testCase = "{dog|{dog|dog}}";
-        String result = TextSpinner.solveSelections(testCase);
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
         Assert.assertEquals("dog", result);
     }
 
     @Test
     public void SolveSentenceSimple(){
         String testCase = "The quick brown fox jumps over the lazy dog";
-        String result = TextSpinner.solveSelections(testCase);
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
         String qbf = "The quick brown fox jumps over the lazy dog";
         Assert.assertEquals(qbf, result);
     }
@@ -41,24 +43,55 @@ public class TextSpinnerTest {
     @Test
     public void SolveSentenceSingle(){
         String testCase = "The quick brown fox jumps over the lazy {dog}";
-        String result = TextSpinner.solveSelections(testCase);
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
         String qbf = "The quick brown fox jumps over the lazy dog";
         Assert.assertEquals(qbf, result);
     }
 
     @Test
-    public void SolveSentenceMultiple(){
+    public void SolveSimpleSentenceMultiple(){
         String testCase = "The quick brown {fox} jumps over the lazy {dog}";
-        String result = TextSpinner.solveSelections(testCase);
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
         String qbf = "The quick brown fox jumps over the lazy dog";
+        Assert.assertEquals(qbf, result);
+    }
+
+    @Test
+    public void SolveSimpleSentenceNested(){
+        String testCase = "The quick brown {fox|{fox}} jumps over the lazy {dog}";
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
+        String qbf = "The quick brown fox jumps over the lazy dog";
+        Assert.assertEquals(qbf, result);
+    }
+
+    // Simple multiple choice
+    @Test
+    public void SolveMultiple(){
+        String testCase = "{dog|cat|mouse}";
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
+        Assert.assertEquals("dog", result);
+    }
+
+    @Test
+    public void SolveNested(){
+        String testCase = "{mouse|{cat|dog}}";
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
+        Assert.assertEquals("dog", result);
+    }
+
+    @Test
+    public void SolveSentenceMultiple(){
+        String testCase = "The quick brown {fox|mouse} jumps over the lazy {dog|cat}";
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
+        String qbf = "The quick brown mouse jumps over the lazy cat";
         Assert.assertEquals(qbf, result);
     }
 
     @Test
     public void SolveSentenceNested(){
-        String testCase = "The quick brown {fox|{fox}} jumps over the lazy {dog}";
-        String result = TextSpinner.solveSelections(testCase);
-        String qbf = "The quick brown fox jumps over the lazy dog";
+        String testCase = "The quick brown {fox|{rat|cat}} jumps over the lazy {dog}";
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
+        String qbf = "The quick brown cat jumps over the lazy dog";
         Assert.assertEquals(qbf, result);
     }
 

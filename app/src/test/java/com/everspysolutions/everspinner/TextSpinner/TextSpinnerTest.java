@@ -64,6 +64,14 @@ public class TextSpinnerTest {
         Assert.assertEquals(qbf, result);
     }
 
+    @Test
+    public void SolveAdjacent(){
+        String testCase = "{a|a}{b|b}";
+        String result = (new TextSpinner(seed)).solveSelections(testCase);
+        String qbf = "ab";
+        Assert.assertEquals(qbf, result);
+    }
+
     // Simple multiple choice
     @Test
     public void SolveMultiple(){

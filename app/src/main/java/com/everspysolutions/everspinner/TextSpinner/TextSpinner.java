@@ -37,7 +37,7 @@ public class TextSpinner {
                 int cutStartPoint2 = findClosingBracket(text, i);
                 sb.append(solveSelection(text.substring(i, cutStartPoint2 + 1)));
                 cutStartPoint = cutStartPoint2 + 1;
-                i = cutStartPoint;
+                i = cutStartPoint2;
             }
             i++;
         }

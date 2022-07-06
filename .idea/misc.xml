@@ -8,6 +8,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Matt/StudioProjects/EverSpinner/app/src/main/res/layout/fragment_saved_text.xml" value="0.55" />
+        <entry key="..\:/Users/Matt/StudioProjects/EverSpinner/app/src/main/res/layout/fragment_saved_text_list.xml" value="0.55" />
+        <entry key="..\:/Users/Matt/StudioProjects/EverSpinner/app/src/main/res/layout/fragment_spinner.xml" value="0.25" />
+        <entry key="..\:/Users/Matt/StudioProjects/EverSpinner/app/src/main/res/layout/synonym_list_item.xml" value="0.5027173913043478" />
         <entry key="..\:/project/Everspinner/app/src/main/res/layout/fragment_edit_saved_text.xml" value="0.21875" />
         <entry key="..\:/project/Everspinner/app/src/main/res/layout/fragment_saved_text.xml" value="0.21875" />
         <entry key="..\:/project/Everspinner/app/src/main/res/layout/fragment_saved_text_list.xml" value="0.21875" />

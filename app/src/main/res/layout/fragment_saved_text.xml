@@ -26,6 +26,25 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textAppearance="?attr/textAppearanceListItem" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="3dp"
+                    android:text="@string/saved_item_date_modified_label"/>
+                <TextView
+                    android:id="@+id/item_saved_modified_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="11sp"
+                    android:textColor="@android:color/tab_indicator_text"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/item_saved_preview"
                 android:layout_width="wrap_content"

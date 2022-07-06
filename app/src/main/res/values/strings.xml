@@ -39,4 +39,5 @@
     <string name="btn_edit_synonym_desc">Edit synonym score</string>
     <string name="btn_save_cache_desc">Save synonym cache changes</string>
     <string name="no_saved_text_list_notice">There are no saved text files.</string>
+    <string name="saved_item_date_modified_label">Date modified:</string>
 </resources>

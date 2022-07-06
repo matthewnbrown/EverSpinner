@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +17,11 @@ import android.widget.Toast;
 
 import com.everspysolutions.everspinner.R;
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
-import com.everspysolutions.everspinner.SavedTextList.SavedTextListViewerDirections;
 import com.everspysolutions.everspinner.SavedTextMangerVM;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFileRecyclerViewAdapter.ViewHolder> {
@@ -47,6 +48,9 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mLabelView.setText(holder.mItem.getLabel());
+        CharSequence date = android.text.format.DateFormat.format("yyyy-MM-dd hh:mm:ss a",
+                holder.mItem.getLastEdit());
+        holder.mModifiedView.setText(date);
         holder.mContentView.setText(holder.mItem.getText());
 
         // Highlight item if it is selected
@@ -82,6 +86,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
         public final View mView;
         public final TextView mContentView;
         public final TextView mLabelView;
+        public final TextView mModifiedView;
         public final CardView mContainer;
         public final ImageButton mEditTextBtn;
         public final ImageButton mDelTextBtn;
@@ -91,6 +96,7 @@ public class SavedFileRecyclerViewAdapter extends RecyclerView.Adapter<SavedFile
             super(view);
             mView = view;
             mLabelView = view.findViewById(R.id.item_saved_label);
+            mModifiedView = view.findViewById(R.id.item_saved_modified_date);
             mContentView = view.findViewById(R.id.item_saved_preview);
             mContainer = view.findViewById(R.id.savedText_container);
             mEditTextBtn = view.findViewById(R.id.item_saved_edit);

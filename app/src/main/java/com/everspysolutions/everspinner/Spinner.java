@@ -1,9 +1,12 @@
 package com.everspysolutions.everspinner;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -196,12 +199,56 @@ public class Spinner extends Fragment implements OnClickListener {
         //outputTextBox.setText(spinText(inputTextBox.getText().toString()));
         new AsyncSpinText(this).execute(inputTextBox.getText().toString());
     }
-    public void onSaveClick(View view) {
+
+    private void newEditSaveFile(View view) {
         String text = inputTextBox.getText().toString();
         activeTextFile = new SavedTextFile();
         updateActiveText(text);
         Navigation.findNavController(view).navigate(
                 SpinnerDirections.actionSpinnerToEditSavedText());
+    }
+    public void onSaveClick(View view) {
+
+        if(activeTextFile.getLastSaveTime() == null) {
+            newEditSaveFile(view);
+        } else {
+            Context context = getContext();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+            builder.setTitle("Overwrite Existing File");
+            //builder.setIcon(R.drawable.icon);
+            builder.setMessage("Would you like to overwrite existing file?");
+            builder.setPositiveButton("Overwrite",
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            Navigation.findNavController(view).navigate(
+                                    SpinnerDirections.actionSpinnerToEditSavedText());
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.setNeutralButton("Cancel",
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+
+            builder.setNegativeButton("New File",
+                    new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            newEditSaveFile(view);
+                            dialog.cancel();
+                        }
+                    });
+            builder.create().show();
+        }
     }
     public void onCacheClick(View view) {
 

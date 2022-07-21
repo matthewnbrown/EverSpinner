@@ -15,9 +15,6 @@ public class SavedTextMangerVM extends ViewModel {
     private MutableLiveData<SavedTextFile> activeText;
 
     public LiveData<List<SavedTextFile>> getTextList() {
-        if (savedTexts == null) {
-            savedTexts = new MutableLiveData<>();
-        }
         return savedTexts;
     }
 

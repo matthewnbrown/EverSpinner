@@ -82,8 +82,9 @@ public class Spinner extends Fragment implements OnClickListener {
         super.onCreate(savedInstanceState);
 
         model = new ViewModelProvider(requireActivity()).get(SavedTextMangerVM.class);
-        model.setTextList(SavedTextFile.loadAllSavedTextFiles(getContext()));
-
+        if(model.getTextList() == null) {
+            model.setTextList(SavedTextFile.loadAllSavedTextFiles(getContext()));
+        }
         SynonymCacher cache = SynonymCacheLoaderSaver.loadLocalSynonymCache(getContext());
         if(cache == null) {
             synonymFinder = new SynonymFinder();

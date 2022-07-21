@@ -39,6 +39,7 @@ public class SavedTextFile implements Serializable {
     private String label;
     private Date timeCreated;
     private Date lastEdit;
+    private Date lastSaveTime;
     private Boolean unsavedChanges = false;
 
     public SavedTextFile(){
@@ -46,6 +47,7 @@ public class SavedTextFile implements Serializable {
         this.label = "Label";
         this.timeCreated = new Date();
         this.lastEdit = new Date();
+        this.lastSaveTime = null;
         this.filename = UUID.randomUUID().toString();
     }
 
@@ -60,6 +62,7 @@ public class SavedTextFile implements Serializable {
         this.timeCreated = new Date();
         this.lastEdit = new Date();
         this.filename = UUID.randomUUID().toString();
+        this.lastSaveTime = null;
     }
 
     /**
@@ -88,6 +91,8 @@ public class SavedTextFile implements Serializable {
         return timeCreated;
     }
 
+    public Date getLastSaveTime() { return lastSaveTime; }
+
     public void setLabel(String label) {
         this.label = label;
         this.lastEdit = new Date();
@@ -102,6 +107,7 @@ public class SavedTextFile implements Serializable {
 
     public void saveToDisk(Context ctx) {
         this.unsavedChanges = false;
+        this.lastSaveTime = new Date();
         saveFile(ctx);
     }
 
@@ -117,7 +123,7 @@ public class SavedTextFile implements Serializable {
                 outputFile.createNewFile();
             }
 
-           // FileOutputStream fos = ctx.openFileOutput(outputFile, Context.MODE_APPEND);
+            // FileOutputStream fos = ctx.openFileOutput(outputFile, Context.MODE_APPEND);
             FileOutputStream fos = new FileOutputStream(outputFile);
 
             XmlSerializer serializer = Xml.newSerializer();
@@ -142,6 +148,10 @@ public class SavedTextFile implements Serializable {
             serializer.startTag(null, "LastEditTime");
             serializer.text(this.lastEdit.toString());
             serializer.endTag(null, "LastEditTime");
+
+            serializer.startTag(null, "LastSaveTime");
+            serializer.text(this.lastSaveTime.toString());
+            serializer.endTag(null, "LastSaveTime");
 
             serializer.startTag(null, "Text");
             serializer.text(this.text);
@@ -201,6 +211,7 @@ public class SavedTextFile implements Serializable {
 
             SimpleDateFormat dateFormat =
                     new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+
             for (int i = 0; i < items.getLength(); i++)
             {
                 Node item = items.item(i);
@@ -224,6 +235,9 @@ public class SavedTextFile implements Serializable {
                             break;
                         case "Text":
                             this.text = nodeVal;
+                            break;
+                        case "LastSaveTime":
+                            this.lastSaveTime = dateFormat.parse(nodeVal);
                             break;
                     }
 

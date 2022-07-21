@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.everspysolutions.everspinner.SavedTextFile.SavedTextFile;
 import com.google.android.material.checkbox.MaterialCheckBox;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -113,8 +116,10 @@ public class EditSavedText extends Fragment implements OnClickListener {
 
         model.setActiveText(savedTextFile);
 
-        if (model.getTextList().getValue() != null) {
-            model.getTextList().getValue().add(savedTextFile);
+        List<SavedTextFile> m = model.getTextList().getValue();
+
+        if (m != null && !m.contains(savedTextFile)) {
+            m.add(savedTextFile);
         }
 
         if(setDefaultCB.isChecked()){

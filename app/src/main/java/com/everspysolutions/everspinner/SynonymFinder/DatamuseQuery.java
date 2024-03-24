@@ -42,7 +42,7 @@ public class DatamuseQuery {
 
     public String findSynonym(String word, int max) {
         String s = word.replaceAll(" ", "+");
-        return getJSON("https://api.datamuse.com/words?rel_syn="+s+"&max=" + Integer.toString(max));
+        return getJSON("https://api.datamuse.com/words?rel_syn="+s+"&max=" + max);
     }
 
     /**

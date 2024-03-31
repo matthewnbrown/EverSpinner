@@ -28,8 +28,8 @@ public class SynonymCacher implements Serializable {
 
     public SynonymCacher (JSONObject object, Date lastEditTime) {
         cache = new Hashtable<>();
-        this.lastUpdateTime = lastEditTime;
         addFromJSONObject(object);
+        this.lastUpdateTime = lastEditTime;
     }
 
     public void addItemToCache(String word, ArrayList<Synonym> synonyms) {

@@ -49,7 +49,7 @@ public class SynonymFinder {
     public String findRandomSynonym(Context ctx, String word) {
         ArrayList<Synonym>  result = findSynonyms(ctx, word);
 
-        if(result.size() > 0) {
+        if(!result.isEmpty()) {
             return result.get(random.nextInt(result.size())).getWord();
         }
         return null;

@@ -157,7 +157,6 @@ public class SavedTextFile implements Serializable {
             serializer.text(this.text);
             serializer.endTag(null, "Text");
 
-
             serializer.endDocument();
             serializer.flush();
 
@@ -254,18 +253,23 @@ public class SavedTextFile implements Serializable {
         return (new File(dir,this.filename)).delete();
     }
     public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx){
-        return loadAllSavedTextFiles(ctx, SAVE_FOLDER_PATH);
+        File[] savedFiles = loadAllSavedTextFiles(ctx, SAVE_FOLDER_PATH);
+        return parseSavedTextFiles(ctx, savedFiles);
     }
-    public static List<SavedTextFile> loadAllSavedTextFiles(Context ctx, String path){
-        List<SavedTextFile> loadedFiles = new ArrayList<SavedTextFile>();
 
+    public static File[] loadAllSavedTextFiles(Context ctx, String path){
         File inputDir = new File(ctx.getFilesDir(), path);
         File lister = inputDir.getAbsoluteFile();
+        return lister.listFiles();
+    }
+    public static List<SavedTextFile> parseSavedTextFiles(Context ctx, File[] files){
+        List<SavedTextFile> loadedFiles = new ArrayList<>();
 
-        if(lister.listFiles() != null) {
-            for (File file : lister.listFiles()) {
-                loadedFiles.add(new SavedTextFile(file, ctx));
-            }
+        if(files == null) {
+            return  loadedFiles;
+        }
+        for (File file : files) {
+            loadedFiles.add(new SavedTextFile(file, ctx));
         }
 
         return loadedFiles;

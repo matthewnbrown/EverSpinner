@@ -220,33 +220,19 @@ public class Spinner extends Fragment implements OnClickListener {
             //builder.setIcon(R.drawable.icon);
             builder.setMessage("Would you like to overwrite existing file?");
             builder.setPositiveButton("Overwrite",
-                    new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                            Navigation.findNavController(view).navigate(
-                                    SpinnerDirections.actionSpinnerToEditSavedText());
-                            dialog.cancel();
-                        }
+                    (dialog, id) -> {
+                        Navigation.findNavController(view).navigate(
+                                SpinnerDirections.actionSpinnerToEditSavedText());
+                        dialog.cancel();
                     });
 
             builder.setNeutralButton("Cancel",
-                    new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                            dialog.cancel();
-                        }
-                    });
+                    (dialog, id) -> dialog.cancel());
 
             builder.setNegativeButton("New File",
-                    new DialogInterface.OnClickListener()
-                    {
-                        public void onClick(DialogInterface dialog, int id)
-                        {
-                            newEditSaveFile(view);
-                            dialog.cancel();
-                        }
+                    (dialog, id) -> {
+                        newEditSaveFile(view);
+                        dialog.cancel();
                     });
             builder.create().show();
         }
@@ -289,7 +275,7 @@ public class Spinner extends Fragment implements OnClickListener {
             matchIndex.add(new int[] {m.start(), m.end()});
         }
 
-        if(allMatches.size() == 0) {
+        if(allMatches.isEmpty()) {
             return text;
         }
 
@@ -310,7 +296,7 @@ public class Spinner extends Fragment implements OnClickListener {
             }
         }
 
-        sb.append(text.substring(lastPos, text.length()));
+        sb.append(text.substring(lastPos));
 
         saveCacheIfNew();
 
@@ -329,8 +315,8 @@ public class Spinner extends Fragment implements OnClickListener {
     }
 
     private void saveCacheIfNew() {
-        if(this.getContext() != null
-                && SynonymCacheLoaderSaver.getLastSaveTime(this.getContext()).getTime()
+        if(this.getContext() != null &&
+                SynonymCacheLoaderSaver.getLastSaveTime(this.getContext()).getTime()
                 < synonymFinder.getSynonymCacher().getLastUpdateTime().getTime()) {
             SynonymCacheLoaderSaver.saveLocalSynonymCache
                     (this.getContext(), synonymFinder.getSynonymCacher());
